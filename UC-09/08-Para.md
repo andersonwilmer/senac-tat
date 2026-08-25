@@ -1,4 +1,4 @@
-# Estrutura de Repetição Para
+# Estrutura de Repetição - Para
 
 > **Data:** 24 de agosto de 2026
 

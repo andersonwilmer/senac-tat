@@ -1,6 +1,6 @@
 # Estrutura de Repetição - Para
 
-> **Data:** 24 de agosto de 2026
+> **Data:** 24 e 26 de agosto de 2026
 
 Nova estrutura de laço de repetição.
 
@@ -184,6 +184,35 @@ Inicio
       
       EscrevaL()
       EscrevaL("O total das vendas é: R$",total_venda)
+
+
+Fimalgoritmo
+```
+
+### Contador de maior idade
+```
+Algoritmo "Contador de maior idade"
+// Escreva um programa que receba a idade de 10 pessoas,
+// calcule e imprima a quantidade de pessoas de idade
+// (idade >= 18 anos).
+
+
+Var
+   cont, idade, soma: inteiro
+
+
+Inicio
+      PARA cont DE 1 ATE 10 FACA
+           Escreva("Qual a idade: ")
+           Leia(idade)
+           
+           SE idade >= 18 ENTAO
+              soma <- soma + 1
+           FIMSE
+      FIMPARA
+     
+      EscrevaL()
+      EscrevaL("Pessoas maiores ou igual a 18 é",soma)
 
 
 Fimalgoritmo

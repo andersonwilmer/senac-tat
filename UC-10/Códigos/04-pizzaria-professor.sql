@@ -1,11 +1,69 @@
 /*
-DATA: 20 de agosto de 2026
-Este código está relacionado com "04-Normalização.md"
+DATA: 25 de agosto de 2026
+Este código está relacionado com "05-Funções-Agregação.md"
 MySQL Workbench
 */
 
+/*
+====================================================
+Banco de Dados
+Projeto Bella Napoli 🍕
+
+SCHEMA OFICIAL DA TURMA
+Aulas 01 a 08
+
+Relacionamentos
+CONSTRAINT
+JOIN
+Tabela Associativa
+Normalização
+
+Preparação para Aula 09:
+Funções de Agregação
+
+Professor: Junior Magalhães
+====================================================
+
+OBJETIVO
+
+Este script recria o banco de dados da Bella Napoli
+até o ponto em que chegamos na Aula 08.
+
+O banco passa por uma evolução:
+
+1. Criamos CLIENTES
+2. Criamos PEDIDOS
+3. Criamos PIZZAS
+4. Criamos relacionamentos com FOREIGN KEY
+5. Utilizamos JOIN
+6. Identificamos problemas de redundância
+7. Criamos ITENS_PEDIDO
+8. Trabalhamos o relacionamento N:N
+9. Aplicamos a normalização
+10. Criamos dados para a Aula 09
+
+A partir da Aula 06 poderemos trabalhar:
+
+- COUNT()
+- SUM()
+- AVG()
+- MIN()
+- MAX()
+- GROUP BY
+- JOIN + SUM()
+- ORDER BY
+- HAVING
+
+====================================================
+*/
+
+
 -- ============================================
--- 1. CRIANDO O BANCO DE DADOS
+-- 1. APAGAR O BANCO ANTERIOR
+-- ============================================
+
+-- ============================================
+-- 2. CRIAR O BANCO
 -- ============================================
 
 CREATE DATABASE pizzaria;
@@ -14,67 +72,73 @@ USE pizzaria;
 
 
 -- ============================================
--- 2. CRIANDO A TABELA CLIENTES
+-- 3. CRIAR A TABELA CLIENTES
 -- ============================================
 
 /*
-A tabela clientes armazena os dados dos clientes
-da Bella Napoli.
+A tabela CLIENTES armazena os dados
+dos clientes da Bella Napoli.
 
-O campo id será nossa CHAVE PRIMÁRIA (PK).
-
-PK = identifica cada registro de forma única.
+PK = Primary Key
+Identifica cada registro de forma única.
 */
 
 CREATE TABLE clientes (
+
     id INT AUTO_INCREMENT PRIMARY KEY,
+
     nome VARCHAR(100),
+
     telefone VARCHAR(20),
+
     endereco VARCHAR(200)
 );
 
 
 -- ============================================
--- 3. CADASTRANDO OS CLIENTES
+-- 4. CADASTRAR CLIENTES
 -- ============================================
 
 INSERT INTO clientes
 (nome, telefone, endereco)
 VALUES
-('João', '11999999999', 'Rua A'),
-('Maria', '11988888888', 'Rua B'),
-('Pedro', '11977777777', 'Rua C');
+
+('João',   '11999999999', 'Rua A'),
+
+('Maria',  '11988888888', 'Rua B'),
+
+('Pedro',  '11977777777', 'Rua C'),
+
+('Ana',    '11966666666', 'Rua D'),
+
+('Carlos', '11955555555', 'Rua E');
 
 
--- Conferindo os clientes cadastrados
+-- Conferindo os clientes
 
-SELECT * FROM clientes;
+SELECT *
+FROM clientes;
 
 
 -- ============================================
--- 4. CRIANDO A TABELA PEDIDOS
+-- 5. CRIAR A TABELA PEDIDOS
 -- ============================================
 
 /*
-Neste momento, a tabela pedidos possui algumas
-informações relacionadas diretamente à pizza.
+Neste primeiro momento estamos trabalhando
+com um modelo mais simples.
 
-Isso faz parte da evolução do nosso projeto.
+PEDIDOS possui informações da pizza.
 
-Durante a aula vamos analisar se essa estrutura
-está realmente adequada.
+Isso é INTENCIONAL.
 
-Por enquanto, pedidos possui:
-
-- id
-- id_cliente
-- sabor
-- tamanho
-- preco
-- data_pedido
+Durante a evolução da aula vamos perceber
+que algumas dessas informações não deveriam
+estar aqui.
 */
 
 CREATE TABLE pedidos (
+
     id INT AUTO_INCREMENT PRIMARY KEY,
 
     id_cliente INT,
@@ -90,474 +154,1129 @@ CREATE TABLE pedidos (
 
 
 -- ============================================
--- 5. CRIANDO O RELACIONAMENTO
+-- 6. RELACIONAMENTO
 --    PEDIDOS → CLIENTES
 -- ============================================
 
 /*
 Cada pedido pertence a um cliente.
 
-A coluna id_cliente será uma CHAVE ESTRANGEIRA (FK).
+A CONSTRAINT cria uma regra no banco.
 
-Relacionamento:
-
-pedidos.id_cliente
+id_cliente de pedidos
         ↓
-clientes.id
+id de clientes
 */
 
 ALTER TABLE pedidos
+
 ADD CONSTRAINT fk_cliente
+
 FOREIGN KEY (id_cliente)
+
 REFERENCES clientes(id);
 
 
 -- ============================================
--- 6. CADASTRANDO PEDIDOS
+-- 7. CADASTRAR PEDIDOS
+--    MODELO ANTIGO
 -- ============================================
 
 /*
-Neste primeiro momento ainda estamos trabalhando
-com o modelo antigo.
+Ainda estamos utilizando o modelo antigo.
 
-Por isso os pedidos possuem:
+PEDIDOS possui:
 
 - sabor
 - tamanho
 - preco
 
-Mais adiante vamos analisar se essas informações
-realmente deveriam estar em pedidos.
+As datas são diferentes porque posteriormente
+vamos utilizar esses dados para exercícios
+de agregação e filtros por data.
 */
 
 INSERT INTO pedidos
 (id_cliente, sabor, tamanho, preco, data_pedido)
 VALUES
-(1, 'Calabresa', 'Grande', 55.00, '2026-08-05 19:30:00'),
-(2, 'Portuguesa', 'Média', 48.00, '2026-08-05 19:45:00'),
-(3, 'Frango', 'Grande', 52.00, '2026-08-05 20:10:00'),
 
-(1, 'Margherita', 'Média', 39.90, NOW()),
-(2, 'Calabresa', 'Broto', 33.50, NOW()),
-(3, 'Portuguesa', 'Grande', 58.90, NOW()),
-(1, 'Frango', 'Média', 45.50, NOW()),
-(2, 'Margherita', 'Grande', 51.00, NOW()),
-(3, 'Calabresa', 'Média', 42.90, NOW()),
-(1, 'Portuguesa', 'Broto', 28.90, NOW()),
-(2, 'Frango', 'Grande', 62.90, NOW()),
-(3, 'Margherita', 'Broto', 31.00, NOW()),
-(1, 'Calabresa', 'Grande', 55.00, NOW()),
-(2, 'Portuguesa', 'Média', 48.00, NOW()),
-(3, 'Frango', 'Broto', 35.90, NOW()),
-(1, 'Margherita', 'Grande', 53.00, NOW()),
-(2, 'Calabresa', 'Média', 42.90, NOW()),
-(3, 'Portuguesa', 'Grande', 58.90, NOW()),
-(1, 'Frango', 'Média', 45.50, NOW()),
-(2, 'Margherita', 'Grande', 66.40, NOW());
+-- 01
+(1, 'Calabresa', 'Grande', 55.00,
+ '2026-08-05 19:30:00'),
+
+-- 02
+(2, 'Portuguesa', 'Média', 48.00,
+ '2026-08-05 19:45:00'),
+
+-- 03
+(3, 'Frango', 'Grande', 52.00,
+ '2026-08-06 20:10:00'),
+
+-- 04
+(4, 'Margherita', 'Média', 39.90,
+ '2026-08-07 18:30:00'),
+
+-- 05
+(5, 'Calabresa', 'Broto', 33.50,
+ '2026-08-07 19:15:00'),
+
+-- 06
+(1, 'Portuguesa', 'Grande', 58.90,
+ '2026-08-08 20:00:00'),
+
+-- 07
+(2, 'Frango', 'Média', 45.50,
+ '2026-08-09 19:20:00'),
+
+-- 08
+(3, 'Margherita', 'Grande', 51.00,
+ '2026-08-10 20:30:00'),
+
+-- 09
+(4, 'Calabresa', 'Média', 42.90,
+ '2026-08-11 18:45:00'),
+
+-- 10
+(5, 'Portuguesa', 'Broto', 28.90,
+ '2026-08-12 19:10:00'),
+
+-- 11
+(1, 'Frango', 'Grande', 62.90,
+ '2026-08-13 20:15:00'),
+
+-- 12
+(2, 'Margherita', 'Broto', 31.00,
+ '2026-08-14 18:30:00'),
+
+-- 13
+(3, 'Calabresa', 'Grande', 55.00,
+ '2026-08-15 19:40:00'),
+
+-- 14
+(4, 'Portuguesa', 'Média', 48.00,
+ '2026-08-16 20:00:00'),
+
+-- 15
+(5, 'Frango', 'Broto', 35.90,
+ '2026-08-17 18:50:00'),
+
+-- 16
+(1, 'Margherita', 'Grande', 53.00,
+ '2026-08-18 19:30:00'),
+
+-- 17
+(2, 'Calabresa', 'Média', 42.90,
+ '2026-08-19 20:10:00'),
+
+-- 18
+(3, 'Portuguesa', 'Grande', 58.90,
+ '2026-08-20 18:40:00'),
+
+-- 19
+(4, 'Frango', 'Média', 45.50,
+ '2026-08-21 19:00:00'),
+
+-- 20
+(5, 'Margherita', 'Grande', 66.40,
+ '2026-08-21 20:00:00');
 
 
 -- Conferindo os pedidos
 
-SELECT * FROM pedidos;
+SELECT *
+FROM pedidos;
 
 
 -- ============================================
--- 7. CRIANDO A TABELA PIZZAS
+-- 8. CRIAR A TABELA PIZZAS
 -- ============================================
 
 /*
-Agora criamos o cardápio da Bella Napoli.
+Agora criamos o CARDÁPIO.
 
-A tabela pizzas passa a armazenar as informações
-das pizzas disponíveis para venda.
+As informações da pizza passam a existir
+em uma tabela própria.
 
-Cada pizza possui:
+PIZZAS possui:
+
+- id
+- sabor
+- tamanho
+- preco
+*/
+
+CREATE TABLE pizzas (
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    sabor VARCHAR(100),
+
+    tamanho VARCHAR(20),
+
+    preco DECIMAL(10,2)
+);
+
+
+-- ============================================
+-- 9. CADASTRAR AS PIZZAS
+-- ============================================
+
+INSERT INTO pizzas
+(sabor, tamanho, preco)
+VALUES
+
+('Calabresa', 'Média', 42.90),
+
+('Margherita', 'Média', 39.90),
+
+('Frango c/ Catupiry', 'Grande', 48.00),
+
+('Portuguesa', 'Média', 45.00);
+
+
+-- Conferindo o cardápio
+
+SELECT *
+FROM pizzas;
+
+
+-- ============================================
+-- 10. ADICIONAR TEMPORARIAMENTE
+--     PEDIDOS → PIZZAS
+-- ============================================
+
+/*
+Agora vamos experimentar uma relação direta
+entre PEDIDOS e PIZZAS.
+
+A coluna id_pizza será uma FOREIGN KEY.
+
+Este relacionamento será posteriormente
+substituído pela tabela ITENS_PEDIDO.
+*/
+
+ALTER TABLE pedidos
+
+ADD COLUMN id_pizza INT;
+
+
+-- ============================================
+-- 11. CRIAR CONSTRAINT
+--     PEDIDOS → PIZZAS
+-- ============================================
+
+ALTER TABLE pedidos
+
+ADD CONSTRAINT fk_pedido_pizza
+
+FOREIGN KEY (id_pizza)
+
+REFERENCES pizzas(id);
+
+
+-- ============================================
+-- 12. RELACIONAR ALGUNS PEDIDOS ÀS PIZZAS
+-- ============================================
+
+/*
+Aqui usamos o relacionamento direto
+apenas para demonstrar o conceito.
+
+Os cinco pedidos abaixo são adicionados
+sem informar preço.
+
+O preço já está em PIZZAS.
+*/
+
+INSERT INTO pedidos
+(id_cliente, id_pizza, data_pedido)
+VALUES
+
+(1, 1, '2026-08-21 20:10:00'),
+
+(2, 2, '2026-08-21 20:20:00'),
+
+(3, 3, '2026-08-21 20:30:00'),
+
+(4, 4, '2026-08-21 20:40:00'),
+
+(5, 1, '2026-08-21 20:50:00');
+
+
+-- Conferindo
+
+SELECT *
+FROM pedidos;
+
+
+-- ============================================
+-- 13. CONSULTAR AS ESTRUTURAS
+-- ============================================
+
+DESCRIBE clientes;
+
+DESCRIBE pedidos;
+
+DESCRIBE pizzas;
+
+
+-- ============================================
+-- 14. CONFERIR AS CONSTRAINTS
+-- ============================================
+
+SHOW CREATE TABLE pedidos;
+
+
+-- ============================================
+-- 15. JOIN
+--     PEDIDOS → CLIENTES
+-- ============================================
+
+SELECT
+
+    pedidos.id,
+
+    clientes.nome,
+
+    pedidos.sabor,
+
+    pedidos.preco
+
+FROM pedidos
+
+JOIN clientes
+
+ON pedidos.id_cliente = clientes.id;
+
+
+-- ============================================
+-- 16. JOIN
+--     PEDIDOS → CLIENTES → PIZZAS
+-- ============================================
+
+SELECT
+
+    pedidos.id,
+
+    clientes.nome,
+
+    pizzas.sabor,
+
+    pizzas.tamanho,
+
+    pizzas.preco
+
+FROM pedidos
+
+JOIN clientes
+
+ON pedidos.id_cliente = clientes.id
+
+JOIN pizzas
+
+ON pedidos.id_pizza = pizzas.id;
+
+
+-- ============================================
+-- 17. OBSERVANDO O PROBLEMA
+-- ============================================
+
+/*
+Temos informações de pizza em dois lugares.
+
+PEDIDOS
+- sabor
+- tamanho
+- preco
+
+PIZZAS
+- sabor
+- tamanho
+- preco
+
+Isso gera REDUNDÂNCIA.
+
+Além disso:
+
+Um pedido pode possuir várias pizzas.
+
+Uma única coluna id_pizza não é suficiente.
+
+Precisamos de uma tabela associativa.
+
+ITENS_PEDIDO
+*/
+
+
+-- ============================================
+-- 18. CRIAR ITENS_PEDIDO
+-- ============================================
+
+/*
+ITENS_PEDIDO será responsável por relacionar:
+
+PEDIDOS ↔ PIZZAS
+
+Um pedido pode possuir vários itens.
+
+Uma pizza pode aparecer em vários pedidos.
+
+Temos um relacionamento N:N.
+*/
+
+CREATE TABLE itens_pedido (
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    id_pedido INT NOT NULL,
+
+    id_pizza INT NOT NULL,
+
+    quantidade INT NOT NULL,
+
+    subtotal DECIMAL(10,2),
+
+    CONSTRAINT fk_item_pedido
+
+    FOREIGN KEY (id_pedido)
+
+    REFERENCES pedidos(id),
+
+    CONSTRAINT fk_item_pizza
+
+    FOREIGN KEY (id_pizza)
+
+    REFERENCES pizzas(id)
+);
+
+
+-- ============================================
+-- 19. INSERIR ITENS DOS PEDIDOS
+-- ============================================
+
+/*
+IMPORTANTE:
+
+Não estamos utilizando:
+
+id_pedido = 26
+
+ou qualquer outro ID fixo.
+
+O próprio banco localizará o pedido
+pela data e hora.
+
+Isso evita depender do AUTO_INCREMENT.
+
+O subtotal representa:
+
+preço × quantidade
+*/
+
+
+-- Pedido 1
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 1, 1, 42.90
+FROM pedidos
+WHERE data_pedido = '2026-08-05 19:30:00';
+
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 2, 1, 39.90
+FROM pedidos
+WHERE data_pedido = '2026-08-05 19:30:00';
+
+
+-- Pedido 2
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 1, 2, 85.80
+FROM pedidos
+WHERE data_pedido = '2026-08-05 19:45:00';
+
+
+-- Pedido 3
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 3, 1, 48.00
+FROM pedidos
+WHERE data_pedido = '2026-08-06 20:10:00';
+
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 4, 1, 45.00
+FROM pedidos
+WHERE data_pedido = '2026-08-06 20:10:00';
+
+
+-- Pedido 4
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 2, 1, 39.90
+FROM pedidos
+WHERE data_pedido = '2026-08-07 18:30:00';
+
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 3, 1, 48.00
+FROM pedidos
+WHERE data_pedido = '2026-08-07 18:30:00';
+
+
+-- Pedido 5
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 1, 1, 42.90
+FROM pedidos
+WHERE data_pedido = '2026-08-07 19:15:00';
+
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 4, 1, 45.00
+FROM pedidos
+WHERE data_pedido = '2026-08-07 19:15:00';
+
+
+-- Pedido 6
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 3, 2, 96.00
+FROM pedidos
+WHERE data_pedido = '2026-08-08 20:00:00';
+
+
+-- Pedido 7
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 2, 1, 39.90
+FROM pedidos
+WHERE data_pedido = '2026-08-09 19:20:00';
+
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 4, 1, 45.00
+FROM pedidos
+WHERE data_pedido = '2026-08-09 19:20:00';
+
+
+-- Pedido 8
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 1, 2, 85.80
+FROM pedidos
+WHERE data_pedido = '2026-08-10 20:30:00';
+
+
+-- Pedido 9
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 3, 1, 48.00
+FROM pedidos
+WHERE data_pedido = '2026-08-11 18:45:00';
+
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 4, 1, 45.00
+FROM pedidos
+WHERE data_pedido = '2026-08-11 18:45:00';
+
+
+-- Pedido 10
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 4, 2, 90.00
+FROM pedidos
+WHERE data_pedido = '2026-08-12 19:10:00';
+
+
+-- Pedido 11
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 1, 1, 42.90
+FROM pedidos
+WHERE data_pedido = '2026-08-13 20:15:00';
+
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 2, 1, 39.90
+FROM pedidos
+WHERE data_pedido = '2026-08-13 20:15:00';
+
+
+-- Pedido 12
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 3, 1, 48.00
+FROM pedidos
+WHERE data_pedido = '2026-08-14 18:30:00';
+
+
+-- Pedido 13
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 1, 2, 85.80
+FROM pedidos
+WHERE data_pedido = '2026-08-15 19:40:00';
+
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 4, 1, 45.00
+FROM pedidos
+WHERE data_pedido = '2026-08-15 19:40:00';
+
+
+-- Pedido 14
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 2, 1, 39.90
+FROM pedidos
+WHERE data_pedido = '2026-08-16 20:00:00';
+
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 3, 1, 48.00
+FROM pedidos
+WHERE data_pedido = '2026-08-16 20:00:00';
+
+
+-- Pedido 15
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 4, 1, 45.00
+FROM pedidos
+WHERE data_pedido = '2026-08-17 18:50:00';
+
+
+-- Pedido 16
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 3, 2, 96.00
+FROM pedidos
+WHERE data_pedido = '2026-08-18 19:30:00';
+
+
+-- Pedido 17
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 1, 1, 42.90
+FROM pedidos
+WHERE data_pedido = '2026-08-19 20:10:00';
+
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 2, 2, 79.80
+FROM pedidos
+WHERE data_pedido = '2026-08-19 20:10:00';
+
+
+-- Pedido 18
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 4, 1, 45.00
+FROM pedidos
+WHERE data_pedido = '2026-08-20 18:40:00';
+
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 3, 1, 48.00
+FROM pedidos
+WHERE data_pedido = '2026-08-20 18:40:00';
+
+
+-- Pedido 19
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 1, 3, 128.70
+FROM pedidos
+WHERE data_pedido = '2026-08-21 19:00:00';
+
+
+-- Pedido 20
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 2, 1, 39.90
+FROM pedidos
+WHERE data_pedido = '2026-08-21 20:00:00';
+
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 4, 2, 90.00
+FROM pedidos
+WHERE data_pedido = '2026-08-21 20:00:00';
+
+
+-- Pedidos criados temporariamente
+-- com id_pizza
+
+-- Pedido 21
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 1, 1, 42.90
+FROM pedidos
+WHERE data_pedido = '2026-08-21 20:10:00';
+
+
+-- Pedido 22
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 2, 1, 39.90
+FROM pedidos
+WHERE data_pedido = '2026-08-21 20:20:00';
+
+
+-- Pedido 23
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 3, 1, 48.00
+FROM pedidos
+WHERE data_pedido = '2026-08-21 20:30:00';
+
+
+-- Pedido 24
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 4, 1, 45.00
+FROM pedidos
+WHERE data_pedido = '2026-08-21 20:40:00';
+
+
+-- Pedido 25
+INSERT INTO itens_pedido
+(id_pedido, id_pizza, quantidade, subtotal)
+
+SELECT id, 1, 2, 85.80
+FROM pedidos
+WHERE data_pedido = '2026-08-21 20:50:00';
+
+
+-- ============================================
+-- 20. CONSULTAR OS ITENS
+-- ============================================
+
+SELECT
+    itens_pedido.id_pedido,
+    pizzas.sabor,
+    itens_pedido.quantidade,
+    itens_pedido.subtotal
+
+FROM itens_pedido
+
+JOIN pizzas
+
+ON itens_pedido.id_pizza = pizzas.id;
+
+
+-- ============================================
+-- 21. CONSULTAR UM PEDIDO
+-- ============================================
+
+SELECT *
+
+FROM pedidos
+
+WHERE id = 1;
+
+
+-- ============================================
+-- 22. CONFERIR A ESTRUTURA
+-- ============================================
+
+SHOW CREATE TABLE pedidos;
+
+
+-- ============================================
+-- 23. NORMALIZAÇÃO
+-- ============================================
+
+/*
+Agora vamos corrigir o modelo.
+
+ITENS_PEDIDO já é responsável por relacionar
+PEDIDOS e PIZZAS.
+
+Por isso o relacionamento direto:
+
+PEDIDOS → PIZZAS
+
+não será mais necessário.
+*/
+
+
+-- ============================================
+-- 24. REMOVER A CONSTRAINT
+-- ============================================
+
+ALTER TABLE pedidos
+
+DROP FOREIGN KEY fk_pedido_pizza;
+
+
+-- ============================================
+-- 25. REMOVER id_pizza
+-- ============================================
+
+ALTER TABLE pedidos
+
+DROP COLUMN id_pizza;
+
+
+-- ============================================
+-- 26. REMOVER DADOS DE PIZZA DE PEDIDOS
+-- ============================================
+
+/*
+Estas informações pertencem à tabela PIZZAS.
+
+Por isso serão removidas de PEDIDOS.
+*/
+
+ALTER TABLE pedidos
+
+DROP COLUMN sabor,
+
+DROP COLUMN tamanho,
+
+DROP COLUMN preco;
+
+
+-- ============================================
+-- 27. CONFERIR A NOVA ESTRUTURA
+-- ============================================
+
+DESCRIBE pedidos;
+
+
+/*
+Resultado esperado:
+
+id
+id_cliente
+data_pedido
+*/
+
+
+-- ============================================
+-- 28. CONSULTAR ITENS NOVAMENTE
+-- ============================================
+
+SELECT
+
+    itens_pedido.id_pedido,
+
+    pizzas.sabor,
+
+    itens_pedido.quantidade,
+
+    itens_pedido.subtotal
+
+FROM itens_pedido
+
+JOIN pizzas
+
+ON itens_pedido.id_pizza = pizzas.id;
+
+
+-- ============================================
+-- 29. 🍕 UNINDO AS QUATRO TABELAS
+-- ============================================
+
+/*
+Agora temos:
+
+CLIENTES
+    ↓
+PEDIDOS
+    ↓
+ITENS_PEDIDO
+    ↓
+PIZZAS
+*/
+
+SELECT
+
+    clientes.nome,
+
+    clientes.telefone,
+
+    clientes.endereco,
+
+    pedidos.id,
+
+    pedidos.data_pedido,
+
+    pizzas.sabor,
+
+    itens_pedido.quantidade,
+
+    itens_pedido.subtotal
+
+FROM pedidos
+
+JOIN clientes
+
+ON pedidos.id_cliente = clientes.id
+
+JOIN itens_pedido
+
+ON itens_pedido.id_pedido = pedidos.id
+
+JOIN pizzas
+
+ON itens_pedido.id_pizza = pizzas.id;
+
+
+-- ============================================
+-- 30. CONFERIR OS PEDIDOS
+-- ============================================
+
+SELECT *
+
+FROM pedidos
+
+ORDER BY data_pedido;
+
+
+-- ============================================
+-- 31. CONFERIR TODOS OS ITENS
+-- ============================================
+
+SELECT *
+
+FROM itens_pedido
+
+ORDER BY id_pedido;
+
+
+-- ============================================
+-- 32. CONFERÊNCIA FINAL
+-- ============================================
+
+SHOW TABLES;
+
+DESCRIBE clientes;
+
+DESCRIBE pedidos;
+
+DESCRIBE itens_pedido;
+
+DESCRIBE pizzas;
+
+
+/*
+====================================================
+ESTRUTURA FINAL
+====================================================
+
+CLIENTES
+    │
+    │ 1:N
+    ▼
+PEDIDOS
+    │
+    │ 1:N
+    ▼
+ITENS_PEDIDO
+    │
+    │ N:1
+    ▼
+PIZZAS
+
+
+PEDIDOS
+
+- id
+- id_cliente
+- data_pedido
+
+
+ITENS_PEDIDO
+
+- id
+- id_pedido
+- id_pizza
+- quantidade
+- subtotal
+
+
+PIZZAS
 
 - id
 - sabor
 - tamanho
 - preco
 
-Observe que o preço da pizza já existe aqui.
-*/
-
-CREATE TABLE pizzas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    sabor VARCHAR(100),
-    tamanho VARCHAR(20),
-    preco DECIMAL(10,2)
-);
-
-
--- ============================================
--- 8. CADASTRANDO AS PIZZAS
--- ============================================
-
-INSERT INTO pizzas
-(sabor, tamanho, preco)
-VALUES
-('Calabresa', 'Média', 42.90),
-('Margherita', 'Média', 39.90),
-('Frango c/ Catupiry', 'Grande', 48.00);
-
-
--- Conferindo o cardápio
-
-SELECT * FROM pizzas;
-
-
--- ============================================
--- 9. ADICIONANDO TEMPORARIAMENTE
---    A RELAÇÃO PEDIDOS → PIZZAS
--- ============================================
-
-/*
-Agora vamos experimentar uma relação direta
-entre pedidos e pizzas.
-
-A coluna id_pizza será uma CHAVE ESTRANGEIRA (FK)
-que aponta para pizzas.id.
-
-IMPORTANTE:
-
-Esse modelo ainda será analisado durante a aula.
-
-Vamos descobrir se colocar uma única pizza dentro
-de cada pedido é suficiente para representar
-corretamente todos os pedidos da pizzaria.
-*/
-
-ALTER TABLE pedidos
-ADD COLUMN id_pizza INT;
-
-
-ALTER TABLE pedidos
-ADD CONSTRAINT fk_pedido_pizza
-FOREIGN KEY (id_pizza)
-REFERENCES pizzas(id);
-
-
--- ============================================
--- 10. CADASTRANDO UM PEDIDO RELACIONADO À PIZZA
--- ============================================
-
-/*
-Agora temos uma diferença importante.
-
-O preço da pizza já está cadastrado na tabela pizzas.
-
-Por isso, ao relacionar o pedido com uma pizza,
-não precisamos informar novamente o preço.
-
-Relacionamento:
-
-pedidos.id_pizza
-        ↓
-pizzas.id
-
-Neste exemplo:
-
-id_cliente = 2 → Maria
-id_pizza   = 1 → Calabresa
-*/
-
-INSERT INTO pedidos
-(id_cliente, id_pizza, data_pedido)
-VALUES
-(2, 1, NOW());
-
-
--- ============================================
--- 11. CADASTRANDO MAIS PEDIDOS RELACIONADOS
---     AO CARDÁPIO
--- ============================================
-
-/*
-Outros pedidos utilizando as pizzas cadastradas.
-
-id_pizza:
-
-1 = Calabresa
-2 = Margherita
-3 = Frango c/ Catupiry
-*/
-
-INSERT INTO pedidos
-(id_cliente, id_pizza, data_pedido)
-VALUES
-(1, 2, NOW()),
-(3, 3, NOW()),
-(1, 1, NOW()),
-(2, 2, NOW());
-
-
--- Conferindo os pedidos
-
-SELECT * FROM pedidos;
-
-
--- ============================================
--- 12. CONSULTANDO A ESTRUTURA DAS TABELAS
--- ============================================
-
-DESCRIBE clientes;
-
-DESCRIBE pedidos;
-
-DESCRIBE pizzas;
-
-
--- ============================================
--- 13. CONFERINDO AS RELAÇÕES
--- ============================================
-
-/*
-SHOW CREATE TABLE mostra a estrutura completa
-da tabela, incluindo suas FOREIGN KEYS.
-*/
-
-SHOW CREATE TABLE pedidos;
-
-
--- ============================================
--- 14. CONSULTANDO PEDIDOS E CLIENTES
--- ============================================
-
-/*
-Relembrando o JOIN estudado anteriormente.
-
-Aqui relacionamos:
-
-PEDIDOS → CLIENTES
-*/
-
-SELECT
-    pedidos.id,
-    clientes.nome,
-    pedidos.sabor,
-    pedidos.preco
-FROM pedidos
-
-JOIN clientes
-ON pedidos.id_cliente = clientes.id;
-
-
--- ============================================
--- 15. CONSULTANDO PEDIDOS, CLIENTES E PIZZAS
--- ============================================
-
-/*
-Agora vamos utilizar dois relacionamentos.
-
-PEDIDOS → CLIENTES
-PEDIDOS → PIZZAS
-
-O objetivo é descobrir:
-
-- número do pedido
-- nome do cliente
-- sabor da pizza
-- preço
-*/
-
-SELECT
-    pedidos.id,
-    clientes.nome,
-    pizzas.sabor,
-    pizzas.tamanho,
-    pizzas.preco
-FROM pedidos
-
-JOIN clientes
-ON pedidos.id_cliente = clientes.id
-
-JOIN pizzas
-ON pedidos.id_pizza = pizzas.id;
-
-
--- ============================================
--- 16. OBSERVANDO O PROBLEMA
--- ============================================
-
-/*
-Compare:
-
-PEDIDOS
-- sabor
-- tamanho
-- preco
-
-PIZZAS
-- sabor
-- tamanho
-- preco
-
-Temos informações sobre pizza armazenadas
-em DOIS lugares diferentes.
-
-Isso gera REDUNDÂNCIA.
-
-Além disso, um pedido pode possuir
-mais de uma pizza.
-
-Pergunta:
-
-Será que colocar apenas um id_pizza
-em pedidos resolve todos os casos?
-
-Essa questão será respondida durante a aula.
-*/
-
-
--- ============================================
--- 17. CONFERÊNCIA FINAL DO BANCO
--- ============================================
-
-SHOW TABLES;
-
-
-SELECT * FROM clientes;
-
-SELECT * FROM pedidos;
-
-SELECT * FROM pizzas;
-
-
--- ============================================
--- 18. ESTRUTURA FINAL
--- ============================================
-
-DESCRIBE clientes;
-
-DESCRIBE pedidos;
-
-DESCRIBE pizzas;
-
-
-/*
-====================================================
-ESTADO ATUAL DO BANCO
-====================================================
-
-CLIENTES
-    │
-    │ id_cliente
-    ▼
-PEDIDOS
-    │
-    │ id_pizza
-    ▼
-PIZZAS
-
-
-Neste momento, pedidos ainda possui:
-
-- sabor
-- tamanho
-- preco
-- id_pizza
-
-Isso é INTENCIONAL.
-
-Durante a próxima etapa vamos perceber que:
-
-1. Um pedido pode possuir várias pizzas.
-
-2. Uma pizza pode aparecer em vários pedidos.
-
-3. Uma única coluna id_pizza em pedidos não é
-   suficiente para representar esse relacionamento.
-
-4. Informações da pizza estão duplicadas em pedidos
-   e pizzas.
-
-A partir desses problemas vamos criar a tabela:
-
-ITENS_PEDIDO
-
-E posteriormente estudar a NORMALIZAÇÃO do banco.
 
 ====================================================
-FIM DO BANCO OFICIAL
+DADOS PREPARADOS PARA AULA 06
+====================================================
+
+Agora temos:
+
+✔ Vários clientes
+✔ Vários pedidos
+✔ Várias pizzas
+✔ Várias quantidades
+✔ Vários subtotais
+✔ Pedidos em datas diferentes
+✔ Vários pedidos no dia 21/08/2026
+
+Isso permitirá trabalhar:
+
+COUNT()
+SUM()
+AVG()
+MIN()
+MAX()
+
+GROUP BY
+
+JOIN + SUM()
+
+ORDER BY
+
+HAVING
+
+
+====================================================
+DESAFIO DA AULA 06 🍕
+
+Don Giuseppe pergunta:
+
+"Professor...
+
+Quanto a Bella Napoli vendeu?"
+
+"Quantos pedidos temos?"
+
+"Quantas pizzas foram vendidas?"
+
+"Qual foi o maior valor?"
+
+"Qual foi o menor valor?"
+
+"Qual pizza vendeu mais?"
+
+"Quanto cada cliente gastou?"
+
+"Quem gastou mais de R$ 100?"
+
+Agora o banco tem dados suficientes
+para responder essas perguntas.
+
+====================================================
+FIM DO SCHEMA OFICIAL
 ====================================================
 */
 
-create table itens_pedido (
-	id int auto_increment primary key,
-	id_pedido int not null,
-	id_pizza int not null,
-	quantidade int not null,
-	subtotal decimal(10,2),
-    
-	constraint fk_item_pedido
-	foreign key (id_pedido)
-	references pedidos(id),
-    
-	constraint fk_item_pizza
-	foreign key (id_pizza)
-	references pizzas(id)
-);
+select count(*)
+from pedidos;
 
-describe itens_pedido;
+select count(id)
+from pedidos;
 
-insert into itens_pedido (id_pedido, id_pizza, quantidade, subtotal)
-values
-(1, 1, 1, 42.90),
-(1, 2, 1, 39.90);
+select sum(subtotal)
+from itens_pedido;
 
-select
-	itens_pedido.id,
-	clientes.nome,
-	pizzas.sabor,
-	itens_pedido.quantidade,
-	itens_pedido.subtotal
-from itens_pedido
-inner join pedidos on itens_pedido.id_pedido = pedidos.id
-inner join pizzas on itens_pedido.id_pizza = pizzas.id
-inner join clientes on pedidos.id_cliente = clientes.id;
-
-show create table pedidos;
-
-alter table
-drop foreign key fk_pedido_pizza;
-
-alter table pedidos
-drop column id_pizza,
-drop column sabor,
-drop column tamanho,
-drop column preco;
-
+describe clientes;
 describe pedidos;
-
-insert into pedidos (id_cliente, data_pedido)
-values
-(1, now());
-
-select
-	pedidos.id,
-	clientes.nome,
-	pedidos.data_pedido
-from pedidos
-inner join clientes on pedidos.id_cliente = clientes.id;
-
 describe itens_pedido;
+describe pizzas;
+select*from pizzas;
+select*from pedidos;
+select*from clientes;
+
+show tables;
+
+select avg(subtotal)
+from itens_pedido;
+
+select min(subtotal)
+from itens_pedido;
+
+select max(subtotal)
+from itens_pedido;
+
+select id_pizza,
+	sum(quantidade)
+from itens_pedido
+GROUP BY id_pizza;
+
+select 
+	itens_pedido.id_pizza,
+    pizzas.sabor,
+	sum(quantidade)
+from itens_pedido
+join pizzas on itens_pedido.id_pizza = pizzas.id
+GROUP BY id_pizza;
+
 select*from itens_pedido;
 
-select*from pedidos;
-
-insert into itens_pedido (id_pedido, id_pizza, quantidade, subtotal)
-values
-(26, 1, 1, 42.90),
-(26, 2, 1, 39.90);
+select count(*)
+from itens_pedido
+where subtotal > 50;
 
 select
 	itens_pedido.id,
 	clientes.nome,
-	pizzas.sabor,
-	itens_pedido.quantidade,
-	itens_pedido.subtotal
+	itens_pedido.id_pizza,
+    pizzas.sabor,
+	sum(itens_pedido.quantidade)
 from itens_pedido
-inner join pedidos on itens_pedido.id_pedido = pedidos.id
-inner join pizzas on itens_pedido.id_pizza = pizzas.id
-inner join clientes on pedidos.id_cliente = clientes.id
-where itens_pedido.id_pedido = 26;
+join pizzas on itens_pedido.id_pizza = pizzas.id
+join pedidos on itens_pedido.id_pedido = pedidos.id
+join clientes on pedidos.id_cliente = clientes.id
+where id_cliente = 1
+group by id_pizza;
+
+UPDATE clientes
+SET	telefone = '11999999999'
+where id = 1;
+
+UPDATE clientes
+SET nome = 'Fofis'
+where id = 5;
+
+DELETE FROM clientes
+where id = 3;
+-- o constraint não permitiu deletar
+
+UPDATE clientes
+SET endereco = 'Av Paulista'
+where id = 5;

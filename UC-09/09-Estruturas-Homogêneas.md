@@ -1,6 +1,6 @@
 # Estruturas de Dados Homogêneas
 
-> **Data:** 31 de agosto de 2026
+> **Data:** 31 de agosto e 02 de setembro de 2026
 
 ---
 

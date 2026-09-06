@@ -230,6 +230,143 @@ Fimalgoritmo
 
 ## Matriz
 
-A matriz é uma estrutura homogênea multidimensional, utilizada para organizar valores em linhas e colunas.
+A matriz é uma estrutura de dados homogênea **bidimensional**, que permite armazenar dados organizados em **linhas e colunas**.
 
-### Em andamento...
+Pode ser entendida como um conjunto de vetores, sendo um vetor associado a cada linha.
+
+Exemplo:
+
+```
+vetor[1..3, 1..2] de inteiro
+```
+
+- Primeiro índice → linha
+- Segundo índice → coluna
+
+---
+
+## Atividades feitas no VisualG - Matriz
+
+### Preenchimento e Exibição
+```
+Algoritmo "Matriz"
+// Matriz
+
+
+Var
+   m: vetor[1..3, 1..2] de inteiro // 3 linhas e 2 colunas
+   l,c: inteiro
+
+
+Inicio
+      Para l de 1 ate 3 faca
+           Para c de 1 ate 2 faca
+                Escreva("Digite o valor da posição [",l," ",c," ]: ")
+                Leia(m[l,c])
+                EscrevaL()
+           FimPara
+      FimPara
+      
+      LimpaTela
+      
+
+      EscrevaL("Matriz efetuada:")
+      EscrevaL()
+      
+      Para l de 1 ate 3 faca
+           Para c de 1 ate 2 faca
+                Escreva(m[l,c]:5)
+           FimPara
+           EscrevaL()
+      Fimpara
+
+
+Fimalgoritmo
+```
+
+### Contagem de Valores Pares
+```
+Algoritmo "Pares"
+// Total de valores pares
+
+
+Var
+   valores: vetor[1..3, 1..3] de inteiro
+   l, c, total_pares: inteiro
+
+
+Inicio
+      Para l de 1 ate 3 faca
+           Para c de 1 ate 3 faca
+                Escreva("Digite o valor da posição [",l,c," ]: ")
+                Leia(valores[l,c])
+           FimPara
+      FimPara
+      
+      LimpaTela
+      EscrevaL("EXIBIÇÃO:")
+      EscrevaL()
+
+      total_pares <- 0
+      
+      Para l de 1 ate 3 faca
+           Para c de 1 ate 3 faca
+                Se (valores[l,c]) % 2 = 0 entao
+                   Escreva(valores[l,c]:5)
+                   total_pares <- total_pares + 1
+                   Senao
+                        Escreva(valores[l,c]:5)
+                Fimse
+           FimPara
+           EscrevaL()
+      Fimpara
+      
+      EscrevaL()
+      EscrevaL("Ao todos foram exibidos",total_pares," valores pares")
+
+
+Fimalgoritmo
+```
+
+### Soma dos Elementos
+```
+Algoritmo "Soma dos elementos"
+// Faça um algoritmo que leia uma matriz 3x3 de números inteiros.
+// Ao final, mostre a matriz na tela e informe a soma de todos
+// os valores armazenados.
+
+
+Var
+   valores: vetor[1..3, 1..3] de inteiro
+   l, c, soma: inteiro
+
+
+Inicio
+      Para l de 1 ate 3 faca
+           Para c de 1 ate 3 faca
+                Escreva("Digite o valor da posição [",l," ",c," ]: ")
+                Leia(valores[l,c])
+           FimPara
+      FimPara
+      
+      LimpaTela
+      
+      soma <- 0
+      
+      Para l de 1 ate 3 faca
+           Para c de 1 ate 3 faca
+
+                soma <- soma + valores[l,c]
+                
+                Escreva(valores[l,c]:5)
+           FimPara
+           EscrevaL()
+      Fimpara
+      
+      EscrevaL()
+      EscrevaL("A soma de todos valores é",soma)
+
+
+
+Fimalgoritmo
+```

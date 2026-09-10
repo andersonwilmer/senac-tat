@@ -211,3 +211,14 @@ select
 from vendas
 join clientes on vendas.codigo_cliente = clientes.codigo
 join produtos on vendas.codigo_produto = produtos.codigo;
+
+select
+    clientes.nome_cliente,
+    produtos.nome_produto,
+    produtos.marca,
+    vendas.quantidade,
+    vendas.data_venda
+from vendas
+join clientes on vendas.codigo_cliente = clientes.codigo
+join produtos on vendas.codigo_produto = produtos.codigo
+where clientes.codigo = 6;

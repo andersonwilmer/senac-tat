@@ -221,4 +221,66 @@ select
 from vendas
 join clientes on vendas.codigo_cliente = clientes.codigo
 join produtos on vendas.codigo_produto = produtos.codigo
-where clientes.codigo = 6;
+where clientes.codigo = 1;
+
+select
+	clientes.nome_cliente,
+    COUNT(vendas.codigo) as quantidade_vendas
+from vendas
+join clientes on vendas.codigo_cliente = clientes.codigo
+group by clientes.nome_cliente;
+
+select*from clientes;
+select*from produtos;
+select*from vendas;
+
+select
+	clientes.nome_cliente,
+    SUM(produtos.preco*vendas.quantidade) as total_gasto
+from vendas
+join clientes on vendas.codigo_cliente = clientes.codigo
+join produtos on vendas.codigo_produto = produtos.codigo
+group by clientes.nome_cliente;
+
+select
+	produtos.nome_produto,
+    SUM(vendas.quantidade) as total_unidades
+from vendas
+join clientes on vendas.codigo_cliente = clientes.codigo
+join produtos on vendas.codigo_produto = produtos.codigo
+group by produtos.nome_produto;
+
+select
+	clientes.nome_cliente,
+    SUM(produtos.preco*vendas.quantidade) as total_gasto
+from vendas
+join clientes on vendas.codigo_cliente = clientes.codigo
+join produtos on vendas.codigo_produto = produtos.codigo
+group by clientes.nome_cliente
+order by total_gasto desc;
+
+select
+	produtos.nome_produto,
+    SUM(vendas.quantidade) as quantidade_total
+from vendas
+join clientes on vendas.codigo_cliente = clientes.codigo
+join produtos on vendas.codigo_produto = produtos.codigo
+group by produtos.nome_produto
+order by quantidade_total desc;
+
+select
+	clientes.nome_cliente,
+    COUNT(vendas.codigo) as quantidade_vendas,
+    SUM(vendas.quantidade) as quantidade_total,
+    SUM(produtos.preco*vendas.quantidade) as total_gasto
+from vendas
+join clientes on vendas.codigo_cliente = clientes.codigo
+join produtos on vendas.codigo_produto = produtos.codigo
+group by clientes.nome_cliente
+order by total_gasto desc;
+
+select
+    produtos.nome_produto
+from produtos
+left join vendas on produtos.codigo = vendas.codigo_produto
+where vendas.codigo is null;

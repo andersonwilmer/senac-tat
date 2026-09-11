@@ -1,5 +1,5 @@
 /*
-DATA: 03 e 08 de setembro de 2026
+DATA: 03, 08 e 10 de setembro de 2026
 Este código está relacionado a uma atividade feita pelo professor.
 MySQL Workbench
 */

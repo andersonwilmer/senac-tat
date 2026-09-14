@@ -1,5 +1,5 @@
 /*
-DATA: 10 de setembro de 2026
+DATA: 09 de setembro de 2026
 Este código está relacionado com "10-JavaScript.md"
 JavaScript
 */

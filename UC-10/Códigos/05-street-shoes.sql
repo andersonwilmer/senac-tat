@@ -1,5 +1,5 @@
 /*
-DATA: 03, 08 e 10 de setembro de 2026
+DATA: 03, 08, 10 e 14 de setembro de 2026
 Este código está relacionado a uma atividade feita pelo professor.
 MySQL Workbench
 */
@@ -283,4 +283,10 @@ select
     produtos.nome_produto
 from produtos
 left join vendas on produtos.codigo = vendas.codigo_produto
+where vendas.codigo is null;
+
+select
+	clientes.nome_cliente
+from clientes
+left join vendas on clientes.codigo = vendas.codigo_cliente
 where vendas.codigo is null;

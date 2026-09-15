@@ -1,5 +1,5 @@
 /*
-DATA: 03, 08, 10 e 14 de setembro de 2026
+DATA: 03, 08, 10, 14 e 15 de setembro de 2026
 Este código está relacionado a uma atividade feita pelo professor.
 MySQL Workbench
 */
@@ -290,3 +290,13 @@ select
 from clientes
 left join vendas on clientes.codigo = vendas.codigo_cliente
 where vendas.codigo is null;
+
+select
+	clientes.nome_cliente,
+    SUM(produtos.preco*vendas.quantidade) as total_gasto
+from vendas
+join produtos on vendas.codigo_produto = produtos.codigo
+join clientes on vendas.codigo_cliente = clientes.codigo
+group by clientes.nome_cliente
+order by total_gasto desc
+limit 1;

@@ -1,6 +1,6 @@
 # JavaScript
 
-> **Data:** 10 de setembro de 2026
+> **Data:** 10 e 14 de setembro de 2026
 
 Início no JavaScript.
 
@@ -135,3 +135,89 @@ rl.question('Digite seu nome: ', (nome) => {
 - `readline` → permite receber dados pelo terminal.
 - `rl.question()` → faz uma pergunta e recebe a resposta.
 - `rl.close()` → encerra a entrada de dados.
+
+### Conversão de valores
+
+Os valores recebidos pelo `readline` são tratados como texto. Para realizar cálculos, utilizamos `Number()` para convertê-los em números.
+
+```js
+const soma = Number(valor1) + Number(valor2)
+```
+
+### Formatação de casas decimais
+
+A função `toFixed()` permite definir a quantidade de casas decimais exibidas em um número.
+
+```js
+let valor = 10
+console.log(valor.toFixed(2))
+```
+
+Resultado:
+
+```
+10.00
+```
+
+`toFixed(2)` → exibe o número com duas casas decimais.
+
+### Operadores de comparação
+
+- `=` → atribuição de valor.
+- `==` → compara apenas o valor.
+- `===` → compara o valor e o tipo, sendo uma igualdade estrita.
+
+Exemplo:
+
+```js
+10 == "10"   // true
+10 === "10"  // false
+```
+
+### Estrutura condicional
+
+O `if` permite executar um bloco de código quando uma condição é verdadeira.
+
+```js
+if (idade >= 18) {
+    console.log('Maior de idade')
+}
+```
+
+O `else` permite executar outro bloco quando a condição é falsa.
+
+```js
+if (idade >= 18) {
+    console.log('Maior de idade')
+} else {
+    console.log('Menor de idade')
+}
+```
+
+### Operador lógico `&&`
+
+O operador `&&` representa **E**.
+
+As duas condições precisam ser verdadeiras.
+
+```js
+if (media >= 5 && media < 7) {
+    console.log('Recuperação')
+}
+```
+
+### Condicional aninhada
+
+É possível utilizar um `if` dentro de outro `if` ou `else` para verificar condições adicionais.
+
+```js
+if (media >= 7) {
+    console.log('Aprovado')
+} else {
+    if (media >= 5) {
+        console.log('Recuperação')
+    } else {
+        console.log('Reprovado')
+    }
+}
+```

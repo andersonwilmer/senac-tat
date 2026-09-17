@@ -1,6 +1,6 @@
 # JavaScript
 
-> **Data:** 10 e 14 de setembro de 2026
+> **Data:** 10, 14 e 16 de setembro de 2026
 
 Início no JavaScript.
 
@@ -221,3 +221,15 @@ if (media >= 7) {
     }
 }
 ```
+
+### Operadores de comparação adicionais
+
+- `!=` → verifica se dois valores são diferentes.
+- `!==` → verifica se dois valores são diferentes em valor ou tipo.
+
+```js
+10 != 5    // true
+10 !== "10" // true
+```
+
+O `!==` é chamado de desigualdade estrita.

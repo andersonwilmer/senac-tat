@@ -1,5 +1,5 @@
 /*
-DATA: 03, 08, 10, 14 e 15 de setembro de 2026
+DATA: 03, 08, 10, 14, 15 e 17 de setembro de 2026
 Este código está relacionado a uma atividade feita pelo professor.
 MySQL Workbench
 */
@@ -300,3 +300,66 @@ join clientes on vendas.codigo_cliente = clientes.codigo
 group by clientes.nome_cliente
 order by total_gasto desc
 limit 1;
+
+-- NOVO DESAFIO
+
+select*from vendas;
+
+update vendas
+set data_venda = '2026-08-01 00:00:00' where codigo = 1;
+
+update vendas
+set data_venda = '2026-09-02 00:00:00' where codigo = 2;
+
+update vendas
+set data_venda = '2026-08-03 00:00:00' where codigo = 3;
+
+update vendas
+set data_venda = '2026-09-04 00:00:00' where codigo = 4;
+
+update vendas
+set data_venda = '2026-08-05 00:00:00' where codigo = 5;
+
+update vendas
+set data_venda = '2026-09-06 00:00:00' where codigo = 6;
+
+update vendas
+set data_venda = '2026-08-07 00:00:00' where codigo = 7;
+
+update vendas
+set data_venda = '2026-09-08 00:00:00' where codigo = 8;
+
+select
+	codigo,
+    data_venda
+from vendas
+where codigo between 1 and 8;
+
+select
+	codigo,
+    data_venda
+from vendas
+where codigo between 1 and 8
+and data_venda >= '2026-08-10';
+
+select
+	codigo,
+    data_venda
+from vendas
+where codigo between 1 and 8
+and data_venda >= '2026-08-05' 
+and data_venda < '2026-08-21';
+
+select
+    codigo,
+    data_venda
+from vendas
+where codigo between 1 and 8
+and data_venda >= '2026-08-05'
+and data_venda < '2026-08-06';
+
+select
+    codigo,
+    year(data_venda) as ano
+from vendas
+where codigo between 1 and 8;

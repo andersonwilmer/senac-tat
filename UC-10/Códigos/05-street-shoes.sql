@@ -363,3 +363,78 @@ select
     year(data_venda) as ano
 from vendas
 where codigo between 1 and 8;
+
+select
+	codigo,
+    month(data_venda) as mês
+from vendas
+where codigo between 1 and 8;
+
+select
+	codigo,
+    day(data_venda) as dia
+from vendas
+where codigo between 1 and 8;
+
+select*from vendas;
+
+select
+	COUNT(quantidade) as vendas_agosto
+from vendas
+where codigo between 1 and 8
+and month(data_venda) = 8;
+
+select
+	COUNT(quantidade) as vendas_setembro
+from vendas
+where codigo between 1 and 8
+and month(data_venda) = 9;
+
+select
+    date(data_venda) as dia,
+    COUNT(*) as quantidade_vendas
+from vendas
+where codigo between 1 and 8
+group by date(data_venda);
+
+select
+	codigo,
+	data_venda
+from vendas
+where codigo between 1 and 8
+order by data_venda desc;
+
+select
+    date(data_venda) as dia,
+    COUNT(*) as quantidade_vendas
+from vendas
+where codigo between 1 and 8
+group by date(data_venda)
+order by quantidade_vendas desc
+limit 1;
+
+select
+	clientes.nome_cliente,
+    produtos.nome_produto,
+    produtos.marca,
+    vendas.quantidade,
+    vendas.data_venda
+from vendas
+join clientes on vendas.codigo_cliente = clientes.codigo
+join produtos on vendas.codigo_produto = produtos.codigo
+where vendas.codigo between 1 and 8
+and vendas.data_venda >= '2026-08-01'
+and vendas.data_venda < '2026-09-01';
+and month(vendas.data_venda) = 8;
+
+select
+	clientes.nome_cliente,
+    produtos.nome_produto,
+    produtos.marca,
+    vendas.quantidade,
+    vendas.data_venda
+from vendas
+join clientes on vendas.codigo_cliente = clientes.codigo
+join produtos on vendas.codigo_produto = produtos.codigo
+where vendas.codigo between 1 and 8
+order by vendas.data_venda desc;

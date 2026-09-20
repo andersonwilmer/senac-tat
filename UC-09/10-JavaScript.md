@@ -1,6 +1,6 @@
-# JavaScript
+# JavaScript - Fundamentos
 
-> **Data:** 10, 14 e 16 de setembro de 2026
+> **Data:** 10 e 14 de setembro de 2026
 
 Início no JavaScript.
 
@@ -160,76 +160,3 @@ Resultado:
 ```
 
 `toFixed(2)` → exibe o número com duas casas decimais.
-
-### Operadores de comparação
-
-- `=` → atribuição de valor.
-- `==` → compara apenas o valor.
-- `===` → compara o valor e o tipo, sendo uma igualdade estrita.
-
-Exemplo:
-
-```js
-10 == "10"   // true
-10 === "10"  // false
-```
-
-### Estrutura condicional
-
-O `if` permite executar um bloco de código quando uma condição é verdadeira.
-
-```js
-if (idade >= 18) {
-    console.log('Maior de idade')
-}
-```
-
-O `else` permite executar outro bloco quando a condição é falsa.
-
-```js
-if (idade >= 18) {
-    console.log('Maior de idade')
-} else {
-    console.log('Menor de idade')
-}
-```
-
-### Operador lógico `&&`
-
-O operador `&&` representa **E**.
-
-As duas condições precisam ser verdadeiras.
-
-```js
-if (media >= 5 && media < 7) {
-    console.log('Recuperação')
-}
-```
-
-### Condicional aninhada
-
-É possível utilizar um `if` dentro de outro `if` ou `else` para verificar condições adicionais.
-
-```js
-if (media >= 7) {
-    console.log('Aprovado')
-} else {
-    if (media >= 5) {
-        console.log('Recuperação')
-    } else {
-        console.log('Reprovado')
-    }
-}
-```
-
-### Operadores de comparação adicionais
-
-- `!=` → verifica se dois valores são diferentes.
-- `!==` → verifica se dois valores são diferentes em valor ou tipo.
-
-```js
-10 != 5    // true
-10 !== "10" // true
-```
-
-O `!==` é chamado de desigualdade estrita.

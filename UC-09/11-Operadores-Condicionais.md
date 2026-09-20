@@ -1,6 +1,6 @@
 # JavaScript - Operadores e Estruturas Condicionais
 
-> **Data:** 16 e 18 de setembro de 2026
+> **Data:** 14, 16 e 18 de setembro de 2026
 
 Continuação dos estudos de JavaScript, com operadores de comparação, operadores lógicos e estruturas condicionais.
 

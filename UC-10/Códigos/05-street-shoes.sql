@@ -1,6 +1,6 @@
 /*
 DATA: 03, 08, 10, 14, 15 e 17 de setembro de 2026
-Este código está relacionado a uma atividade feita pelo professor.
+Este código está relacionado a uma atividade feita pelo professor Junior Magalhães.
 MySQL Workbench
 */
 

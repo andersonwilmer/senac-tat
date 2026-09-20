@@ -1,4 +1,4 @@
-# JavaScript — Operadores e Estruturas Condicionais
+# JavaScript - Operadores e Estruturas Condicionais
 
 > **Data:** 16 e 18 de setembro de 2026
 

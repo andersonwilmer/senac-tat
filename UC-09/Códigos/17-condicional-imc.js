@@ -1,6 +1,6 @@
 /*
 DATA: 16 de setembro de 2026
-Este código está relacionado com "10-JavaScript.md"
+Este código está relacionado com "11-Operadores-Condicionais.md"
 JavaScript
 */
 

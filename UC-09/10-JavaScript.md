@@ -1,6 +1,6 @@
 # JavaScript - Fundamentos
 
-> **Data:** 11 e 14 de setembro de 2026
+> **Data:** 11 de setembro de 2026
 
 Início no JavaScript.
 

@@ -23,7 +23,7 @@ console.log('')
 
         tabuada = valor * contador 
 
-        console.log(valor, ' x ', contador, ' = ', tabuada)
+        console.log(`${valor} x ${contador} = ${tabuada}`)
         contador = contador + 1
     }
 

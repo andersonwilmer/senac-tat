@@ -18,7 +18,7 @@ rl.question('Contar até: ', (valor) => {
 
     let contador = 0
 
-    while(cont <= valor){
+    while(contador <= valor){
         console.log(contador)
         contador = contador + 1
     }

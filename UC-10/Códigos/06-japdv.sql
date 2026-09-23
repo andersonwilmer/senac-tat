@@ -105,6 +105,5 @@ select
     produtos.estoqueMinimo,
     fornecedores.nome
 from produtos
-join fornecedores
-on produtos.idFornecedor = fornecedores.idFornecedor
+join fornecedores on produtos.idFornecedor = fornecedores.idFornecedor
 order by produtos.descricao;

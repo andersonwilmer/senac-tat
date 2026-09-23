@@ -11,13 +11,13 @@ const rl = readline.createInterface({
 })
 
 console.log('')
-console.log('TABUADA')
+console.log('=== TABUADA ===')
 console.log('')
 
 rl.question('Digite um número: ', (valor) => {
 console.log('')
 
-    let contador = 0
+    let contador = 1
    
     while(contador <= 10){
 

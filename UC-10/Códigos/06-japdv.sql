@@ -23,8 +23,8 @@ create table fornecedores (
 
 insert into fornecedores (nome, fone, email)
 values
-('Kalunga', '1199999-1111', '[kalunga@kalunga.com.br](mailto:kalunga@kalunga.com.br)'),
-('Tilibra', '1199999-2222', '[vendas@tilibra.com.br](mailto:vendas@tilibra.com.br)');
+('Kalunga', '1199999-1111', 'kalunga@kalunga.com.br'),
+('Tilibra', '1199999-2222', 'vendas@tilibra.com.br');
 
 create table produtos (
 	idProduto int auto_increment primary key,

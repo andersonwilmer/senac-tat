@@ -16,8 +16,8 @@ console.log('')
 
 let contador = 1
 
-while (cont <= 10) {
-    console.log(cont)
+while (contador <= 10) {
+    console.log(contador)
     contador = contador + 1
 }
 

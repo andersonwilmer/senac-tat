@@ -1,6 +1,6 @@
 /*
 DATA: 22 de setembro de 2026
-Este código está relacionado com "12-While.md"
+Este código está relacionado com "13-Function.md"
 JavaScript
 */
 

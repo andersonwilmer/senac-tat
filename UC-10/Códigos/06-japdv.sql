@@ -1,5 +1,5 @@
 /*
-DATA: 22 de setembro de 2026
+DATA: 22 e 24 de setembro de 2026
 Este código está relacionado a...
 MySQL Workbench
 */
@@ -107,3 +107,114 @@ select
 from produtos
 join fornecedores on produtos.idFornecedor = fornecedores.idFornecedor
 order by produtos.descricao;
+
+show tables;
+
+describe fornecedores;
+describe itens_venda;
+describe produtos;
+describe vendas;
+
+select*from fornecedores;
+select*from itens_venda;
+select*from produtos;
+select*from vendas;
+
+select
+	produtos.idProduto,
+    produtos.codigoBarras,
+    produtos.descricao,
+    produtos.categoria,
+    produtos.quantidade,
+    produtos.estoqueMinimo,
+    fornecedores.nome,
+    produtos.estoqueMinimo - produtos.quantidade as quantidade_necessaria
+from produtos
+join fornecedores on produtos.idFornecedor = fornecedores.idFornecedor
+where produtos.quantidade <= produtos.estoqueMinimo
+order by quantidade_necessaria;
+
+select
+	produtos.idProduto,
+    produtos.codigoBarras,
+    produtos.descricao,
+    produtos.categoria,
+    produtos.quantidade,
+    produtos.estoqueMinimo,
+    fornecedores.nome,
+    produtos.estoqueMinimo - produtos.quantidade as quantidade_necessaria
+from produtos
+join fornecedores on produtos.idFornecedor = fornecedores.idFornecedor
+where produtos.quantidade <= produtos.estoqueMinimo
+order by produtos.descricao;
+
+select
+	vendas.idVenda,
+    vendas.dataVenda,
+    produtos.descricao,
+    itens_venda.quantidade,
+    itens_venda.precoUnitario,
+    itens_venda.quantidade * itens_venda.precoUnitario as sub_total
+from itens_venda
+join vendas on itens_venda.idVenda = vendas.idVenda
+join produtos on itens_venda.idProduto = produtos.idProduto
+where vendas.idVenda = 1;
+
+select
+	COUNT(idProduto) as registros_existentes
+from produtos;
+
+select
+	idProduto,
+    descricao,
+	quantidade,
+    estoqueMinimo
+from produtos
+where quantidade <= estoqueMinimo
+and quantidade > 0;
+
+select
+	idProduto,
+    descricao,
+	quantidade
+from produtos
+where quantidade = 0;
+
+select
+	idVenda,
+    dataVenda
+from vendas
+where date(dataVenda) = date(now());
+
+select
+    COUNT(dataVenda) as quantidade_vendas
+from vendas
+where date(dataVenda) = date(now());
+
+select
+	SUM(total) as faturamento_total
+from vendas
+where date(dataVenda) = date(now());
+
+select
+    idVenda,
+    dataVenda
+from vendas
+order by dataVenda desc
+limit 10;
+
+select*from produtos;
+
+select
+	*
+from produtos
+order by quantidade desc
+limit 1;
+
+select
+	idProduto,
+    descricao,
+	precoVenda - precoCusto as diferenca
+from produtos
+order by idProduto desc
+limit 1;

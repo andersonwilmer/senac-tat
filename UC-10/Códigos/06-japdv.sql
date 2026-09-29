@@ -1,5 +1,5 @@
 /*
-DATA: 22 e 24 de setembro de 2026
+DATA: 22, 24 e 29 de setembro de 2026
 Este código está relacionado a...
 MySQL Workbench
 */
@@ -192,7 +192,7 @@ from vendas
 where date(dataVenda) = date(now());
 
 select
-	SUM(total) as faturamento_total
+	IFNULL(SUM(total), 0) as faturamento_total
 from vendas
 where date(dataVenda) = date(now());
 
@@ -248,3 +248,11 @@ join itens_venda on produtos.idProduto = itens_venda.idProduto
 group by produtos.idProduto, produtos.descricao
 order by quantidade_total desc
 limit 1;
+
+select
+	itens_venda.idVenda,
+    SUM(itens_venda.precoUnitario * itens_venda.quantidade) as venda_total
+from itens_venda
+join vendas on itens_venda.idVenda = vendas.idVenda
+join produtos on itens_venda.idProduto = produtos.idProduto
+group by itens_venda.idVenda;

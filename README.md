@@ -21,3 +21,4 @@ Repositório contendo anotações de aulas do Curso Técnico em Informática do 
 - UC-8: [**Projeto Integrador: Assistente de Operações de Redes de Computadores**](https://github.com/wilmeryf/infraestrutura-corporativa)
 - UC-9: **Desenvolver Algoritmos**
 - UC-10: **Desenvolver Banco de Dados**
+- UC-12: **Executar os processos de codificação, manutenção e documentação de aplicativos computacionais para desktop**

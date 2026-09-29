@@ -234,7 +234,7 @@ select*from vendas;
 select
 	produtos.idProduto,
     produtos.descricao,
-    SUM(itens_venda.quantidade) as quantidade_total
+    IFNULL(SUM(itens_venda.quantidade), 0) as quantidade_total
 from produtos
 left join itens_venda on produtos.idProduto = itens_venda.idProduto
 group by produtos.idProduto, produtos.descricao;

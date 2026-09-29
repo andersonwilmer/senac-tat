@@ -218,3 +218,33 @@ select
 from produtos
 order by idProduto desc
 limit 1;
+
+show tables;
+
+describe fornecedores;
+describe itens_venda;
+describe produtos;
+describe vendas;
+
+select*from fornecedores;
+select*from itens_venda;
+select*from produtos;
+select*from vendas;
+
+select
+	produtos.idProduto,
+    produtos.descricao,
+    SUM(itens_venda.quantidade) as quantidade_total
+from produtos
+left join itens_venda on produtos.idProduto = itens_venda.idProduto
+group by produtos.idProduto, produtos.descricao;
+
+select
+	produtos.idProduto,
+    produtos.descricao,
+    SUM(itens_venda.quantidade) as quantidade_total
+from produtos
+join itens_venda on produtos.idProduto = itens_venda.idProduto
+group by produtos.idProduto, produtos.descricao
+order by quantidade_total desc
+limit 1;

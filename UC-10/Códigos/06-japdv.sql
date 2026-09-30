@@ -55,17 +55,17 @@ select*from produtos;
 
 create table vendas (
 	idVenda int auto_increment primary key,
-    dataVenda datetime,
+    dataVenda datetime DEFAULT CURRENT_TIMESTAMP,
     total decimal(10,2) not null
 );
 
 describe vendas;
 
-insert into vendas (dataVenda, total)
+insert into vendas (total)
 values
-(now(), 16.00),
-(now(), 16.00),
-(now(), 23.00);
+(16.00),
+(16.00),
+(23.00);
 
 select*from vendas;
 
@@ -125,28 +125,28 @@ select
     produtos.codigoBarras,
     produtos.descricao,
     produtos.categoria,
-    produtos.quantidade,
+    produtos.quantidade as estoque_atual,
     produtos.estoqueMinimo,
-    fornecedores.nome,
-    produtos.estoqueMinimo - produtos.quantidade as quantidade_necessaria
+    fornecedores.nome as fornecedor,
+    produtos.estoqueMinimo - produtos.quantidade as quantidade_repor
 from produtos
 join fornecedores on produtos.idFornecedor = fornecedores.idFornecedor
 where produtos.quantidade <= produtos.estoqueMinimo
-order by quantidade_necessaria;
+order by quantidade_repor;
 
 select
 	produtos.idProduto,
     produtos.codigoBarras,
     produtos.descricao,
     produtos.categoria,
-    produtos.quantidade,
+    produtos.quantidade as estoque_atual,
     produtos.estoqueMinimo,
-    fornecedores.nome,
-    produtos.estoqueMinimo - produtos.quantidade as quantidade_necessaria
+    fornecedores.nome as fornecedor,
+    produtos.estoqueMinimo - produtos.quantidade as quantidade_repor
 from produtos
 join fornecedores on produtos.idFornecedor = fornecedores.idFornecedor
 where produtos.quantidade <= produtos.estoqueMinimo
-order by produtos.descricao;
+ORDER BY produtos.quantidade asc, produtos.descricao;
 
 select
 	vendas.idVenda,
@@ -184,17 +184,17 @@ select
 	idVenda,
     dataVenda
 from vendas
-where date(dataVenda) = date(now());
+where date(dataVenda) = CURDATE();
 
 select
-    COUNT(dataVenda) as quantidade_vendas
+    COUNT(*) as quantidade_vendas
 from vendas
-where date(dataVenda) = date(now());
+where date(dataVenda) = CURDATE();
 
 select
 	IFNULL(SUM(total), 0) as faturamento_total
 from vendas
-where date(dataVenda) = date(now());
+where date(dataVenda) = CURDATE();
 
 select
     idVenda,

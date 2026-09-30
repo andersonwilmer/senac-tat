@@ -216,7 +216,7 @@ select
     descricao,
 	precoVenda - precoCusto as diferenca
 from produtos
-order by idProduto desc
+order by diferenca desc
 limit 1;
 
 show tables;

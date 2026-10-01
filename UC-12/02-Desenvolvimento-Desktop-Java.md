@@ -2,7 +2,7 @@
 
 > **Data:** 28 de setembro de 2026
 
-Começamos a trabalhar Programação Orientada a Objetos (POO) utilizando Java.
+Iniciamos os primeiros passos no desenvolvimento de aplicações desktop utilizando Java e o ambiente de desenvolvimento Eclipse IDE.
 
 ---
 

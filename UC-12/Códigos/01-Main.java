@@ -1,6 +1,6 @@
 /*
 DATA: 28 de setembro de 2026
-Este código está relacionado com "16-POO.md"
+Este código está relacionado com "02-Desenvolvimento-Desktop-Java.md"
 Java
 Descrição: Janela desktop com um botão que exibe uma mensagem.
 */

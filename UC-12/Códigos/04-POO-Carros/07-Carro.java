@@ -1,5 +1,5 @@
 /*
-DATA: 02 e 06 de outrubro de 2026
+DATA: 02 e 05 de outrubro de 2026
 Este código está relacionado com "04-Abstração.md e 05-Heranca-Polimorfismo.md"
 Java
 */

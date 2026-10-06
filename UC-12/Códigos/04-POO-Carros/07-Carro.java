@@ -1,6 +1,6 @@
 /*
 DATA: 02 e 06 de outrubro de 2026
-Este código está relacionado com "04-Abstração.md e 05-Herança-Poliformismo.md"
+Este código está relacionado com "04-Abstração.md e 05-Heranca-Polimorfismo.md"
 Java
 */
 

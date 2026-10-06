@@ -1,5 +1,5 @@
 /*
-DATA: 06 de outrubro de 2026
+DATA: 05 de outrubro de 2026
 Este código está relacionado com 05-Heranca-Polimorfismo.md"
 Java
 */

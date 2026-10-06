@@ -4,7 +4,6 @@ Este código está relacionado com "04-Abstração.md e 05-Herança-Poliformismo
 Java
 */
 
-
 package veiculos;
 
 public class Garagem {

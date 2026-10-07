@@ -11,9 +11,11 @@ public class Hangar {
 	public static void main(String[] args) {
 		// Objeto 1
 		Aviao Boing = new Aviao();
+		Boing.envergadura = 10.11;
 		Boing.ano = 1947;
 		Boing.cor = "Vermelho";
 		System.out.println("Avião: Boing");
+		System.out.println("Envergadura: " + Boing.envergadura);
 		System.out.println("Ano: " + Boing.ano);
 		System.out.println("Cor: " + Boing.cor);
 		Boing.acelerar();

@@ -13,7 +13,7 @@ public class Hangar {
 		Aviao Boing = new Aviao();
 		Boing.envergadura = 10.11;
 		Boing.ano = 1947;
-		Boing.cor = "Vermelho";
+		Boing.cor = "Branco";
 		System.out.println("Avião: Boing");
 		System.out.println("Envergadura: " + Boing.envergadura);
 		System.out.println("Ano: " + Boing.ano);

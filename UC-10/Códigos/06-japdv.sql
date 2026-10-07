@@ -150,7 +150,7 @@ ORDER BY produtos.quantidade asc, produtos.descricao;
 
 select
 	vendas.idVenda,
-    vendas.dataVenda,
+    DATE_FORMAT(vendas.dataVenda, '%d/%m/%Y %H:%i') AS dataVenda,      -- mudou aqui
     produtos.descricao,
     itens_venda.quantidade,
     itens_venda.precoUnitario,
@@ -198,7 +198,7 @@ where date(dataVenda) = CURDATE();
 
 select
     idVenda,
-    dataVenda
+    DATE_FORMAT(dataVenda, '%d/%m/%Y %H:%i') as dataVenda,    -- mudou aqui
 from vendas
 order by dataVenda desc
 limit 10;

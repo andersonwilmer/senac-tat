@@ -1,6 +1,6 @@
 # Modificadores de Acesso e Operações Bancárias em Java
 
-> **Data:** 07 de outubro de 2026
+> **Data:** 07 e 13 de outubro de 2026
 
 ---
 
@@ -215,3 +215,29 @@ cc1.transferir(cc2, 2000);
 ```
 
 Nesse caso, `cc1` é a conta de origem, `cc2` é a conta de destino e 2000 é o valor transferido.
+
+### Relatório Gerencial: soma dos saldos
+
+Para concluir a atividade da Agência Bancária, foi criado um método chamado `soma()` na classe `Conta`. Ele recebe dois valores do tipo double, calcula a soma e retorna o resultado.
+
+```java
+double soma(double cc1, double cc2) {
+    double total = cc1 + cc2;
+    return total;
+}
+```
+
+`return total` → devolve o resultado da soma para o local em que o método foi chamado.
+
+utilizamos esse método na classe `PessoaFisica` para calcular o saldo total das duas contas correntes.
+
+```java
+System.out.println("Relatório Gerencial");
+Conta gerente = new Conta();
+double relatorio = gerente.soma(cc1.saldo, cc2.saldo);
+System.out.println("Saldo total nas contas: R$ " + relatorio);
+```
+
+`Conta gerente = new Conta();` → cria um objeto da classe Conta para acessar o método soma().  
+`gerente.soma(cc1.saldo, cc2.saldo)` → chama o método soma(), passando os saldos das contas cc1 e cc2 como argumentos.  
+`double relatorio` → armazena o valor retornado pelo método.

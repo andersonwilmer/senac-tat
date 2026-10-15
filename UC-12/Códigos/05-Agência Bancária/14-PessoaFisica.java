@@ -1,5 +1,5 @@
 /*
-DATA: 07 de outrubro de 2026
+DATA: 07 e 13 de outubro de 2026
 Este código está relacionado com "06-Modificadores-Acesso.md" e "07-Encapsulamento.md"
 Java
 */

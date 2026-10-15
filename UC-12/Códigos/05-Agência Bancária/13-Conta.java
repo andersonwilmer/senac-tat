@@ -1,16 +1,34 @@
 /*
-DATA: 07 de outrubro de 2026
-Este código está relacionado com 06-Modificadores-Acesso.md"
+DATA: 07 e 13 de outrubro de 2026
+Este código está relacionado com "06-Modificadores-Acesso.md" e "07-Encapsulamento.md"
 Java
 */
 
 package contas;
 
 public class Conta {
-	// atributos
-	protected double saldo;
-	protected String cliente;
+	// atributos com encapsulamento
+	private double saldo;
+	private String cliente;
 	
+	// métodos get e set para acessar as variáveis encapsuladas
+	// Dica: botão direito > source > generate getters and setters
+	public double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
+	}
+
+	public String getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(String cliente) {
+		this.cliente = cliente;
+	}
+
 	// construtor
 	public Conta() {
 		System.out.println("Agência 0261");

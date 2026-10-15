@@ -130,6 +130,24 @@ Como `protected` possui regras específicas de acesso, foi utilizada a herança 
 public class SeguroPessoaFisica extends Conta {
 ```
 
+### Criando um objeto da classe filha
+
+Depois de declarar a herança em `SeguroPessoaFisica`, a criação do objeto foi alterada.
+
+Antes, utilizávamos:
+
+```java
+Conta cc3 = new Conta();
+```
+
+Depois, passamos a utilizar:
+
+```java
+SeguroPessoaFisica cc3 = new SeguroPessoaFisica();
+```
+
+Essa alteração cria um objeto da classe `SeguroPessoaFisica`, que herda os membros da classe `Conta`.
+
 Assim, a classe passou a herdar de `Conta`, podendo utilizar os membros protegidos por meio da própria instância da subclasse, respeitando as regras de acesso do Java.
 
 Esses exercícios demonstrou como os **modificadores de acesso** interferem na utilização de classes de pacotes diferentes.

@@ -145,7 +145,6 @@ public class Recibo {
 						
 			// encerrar a conexão
 			impressora.close();
-
 			
 		} catch (Exception e) {
 			System.out.println(e);

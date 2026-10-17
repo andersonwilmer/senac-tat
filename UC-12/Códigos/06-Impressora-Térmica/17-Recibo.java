@@ -22,7 +22,7 @@ public class Recibo {
 		try {
 			// criação de objetos
 			// modificar o IP conforme rede
-			Socket impressora = new Socket("10.26.45.52", 9100);
+			Socket impressora = new Socket("10.26.45.49", 9100);
 			OutputStream saida = impressora.getOutputStream();
 			
 			saida.write(new byte[] {0x1B, 0x40}); //Reseta e inicia a impressora
@@ -30,8 +30,10 @@ public class Recibo {
 			
 			LocalDateTime agora = LocalDateTime.now();
 			DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy  HH:mm"); //imprime data e hora
+			DateTimeFormatter formato2 = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //imprime data
 			
 			String dataHora = agora.format(formato) + "\n"; //variável data e hora
+			String data = agora.format(formato2);
 			
 			saida.write(new byte[] {0x1B, 0x45, 0x01}); //negrito
 			
@@ -130,7 +132,43 @@ public class Recibo {
 			
 			saida.write(new byte[] {0x1B, 0x45, 0x00}); //tira o negrito
 			
-			saida.write("À VISTA".getBytes("CP850"));
+			saida.write("À VISTA\n\n\n".getBytes("CP850"));
+			
+			saida.write(new byte[] {0x1B, 0x45, 0x01}); //negrito
+			
+			saida.write("DATA PGTO            R$ VALOR       TIPO PGTO\n".getBytes("CP850"));
+			
+			saida.write(new byte[] {0x1B, 0x45, 0x00}); //tira o negrito
+			
+			saida.write(data.getBytes("CP850"));
+			
+			saida.write("            320,00         DINHEIRO\n\n".getBytes("CP850"));
+			
+			saida.write("________________________________________________\n\n".getBytes("CP850"));
+			
+			saida.write("VENDEDOR(A): VENDEDOR 1\n".getBytes("CP850"));
+			
+			saida.write("________________________________________________\n\n\n\n".getBytes("CP850"));
+			
+			saida.write("Números de Série:\n".getBytes("CP850"));
+			
+			saida.write("HJGB458454FJH, YHRUEF785848347583\n\n\n\n".getBytes("CP850"));
+			
+			saida.write(new byte[] {0x1B, 0x61, 0x01}); //centraliza
+			
+			saida.write("Recebi a(s) mercadoria(s) acima descrita(s), \n".getBytes("CP850"));
+			
+			saida.write("concordando plenamente com os prazos e condições de garantia.\n\n\n\n".getBytes("CP850"));
+			
+			saida.write(".........................................\n".getBytes("CP850"));
+			
+			saida.write("ASSINATURA DO CLIENTE\n\n".getBytes("CP850"));
+			
+			saida.write("________________________________________________\n\n".getBytes("CP850"));
+			
+			saida.write(new byte[] {0x1B, 0x45, 0x01}); //negrito
+			
+			saida.write("* OBRIGADO E VOLTE SEMPRE *\n\n".getBytes("CP850"));
 			
 			// avanço de papel
 			// Atenção o último byte 0x05 representa número de linhas
@@ -145,6 +183,7 @@ public class Recibo {
 						
 			// encerrar a conexão
 			impressora.close();
+
 			
 		} catch (Exception e) {
 			System.out.println(e);

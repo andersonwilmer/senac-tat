@@ -33,7 +33,7 @@ public class Hello {
 
 ## MySQL Workbench
 
-Voltamos a utilizar o MySQL Workbench para criar um banco de dados chamado agenda.
+Voltamos a utilizar o MySQL Workbench para criar um banco de dados chamado `agenda`.
 
 Para abrir uma nova aba de consulta SQL, utilizamos o caminho: File → New Query Tab
 

@@ -274,5 +274,3 @@ Os botões Adicionar, Editar, Excluir, Relatório e Limpar foram configurados co
 O objetivo foi manter os botões com larguras iguais, deixando a interface mais organizada.
 
 Também removemos uma parte que havia sobrado na região inferior do rodapé para ajustar a aparência final do formulário.
-
-![Layout final](Imagens/08-layout-final-agenda.png)

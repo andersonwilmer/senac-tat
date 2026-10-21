@@ -104,6 +104,8 @@ setUndecorated(true);
 setLocationRelativeTo(null);
 ```
 
+![Agenda tela cheia](Imagens/09-agenda-tela-cheia.png)
+
 Função de cada método:
 
 - `setSize(600, 360)`: define a largura de 600 pixels e a altura de 360 pixels.
@@ -112,9 +114,6 @@ Função de cada método:
 - `setIconImage(icone.getImage())`: define o ícone da janela usando a imagem favicon.png, localizada em src/main/resources/icons.
 - `setResizable(false)`: impede que o usuário redimensione a janela manualmente.
 - `setExtendedState(JFrame.MAXIMIZED_BOTH)`: solicita que a janela seja maximizada horizontal e verticalmente.
-
-![Agenda tela cheia](Imagens/09-agenda-tela-cheia.png)
-
 - `setUndecorated(true)`: remove as decorações padrão da janela, como a barra de título e as bordas.
 - `setLocationRelativeTo(null)`: posiciona a janela no centro da tela quando ela é exibida em seu tamanho normal.
 

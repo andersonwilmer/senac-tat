@@ -204,6 +204,9 @@ Utilizamos a propriedade **toolTipText** no UI Designer para exibir uma pequena 
 Configuramos os seguintes textos:
 
 - Botão WhatsApp (btnWhatsapp): Abrir no navegador.
+
+![Tooltip do botão WhatsApp](Imagens/10-agenda-tooltip-whatsapp.png)
+
 - Ícone Sobre (lblSobre): Sobre.
 
 Essas mensagens funcionam como dicas para o usuário, ajudando a indicar a finalidade dos componentes sem ocupar espaço permanente na interface.
@@ -255,7 +258,7 @@ groupId: identifica o grupo responsável pela biblioteca.
 
 Depois de adicionar a dependência e atualizar o projeto Maven, a biblioteca passa a aparecer em **External Libraries no IntelliJ IDEA**.
 
-![Flatlaf](Imagens/10-flatlaf-external-libraries.png)
+![Flatlaf](Imagens/11-flatlaf-external-libraries.png)
 
 O Maven gerencia o download e a disponibilização dessa biblioteca para o projeto, evitando a necessidade de adicionar manualmente os arquivos JAR.
 
@@ -308,4 +311,4 @@ Caminho:
 
 Após configurar a classe Agenda, integrar o formulário criado no UI Designer e aplicar o tema visual FlatLaf, executamos a classe Main.java para abrir a aplicação.
 
-![Execução da aplicação pelo Main.java](Imagens/11-main-execucao.png)
+![Execução da aplicação pelo Main.java](Imagens/12-main-execucao.png)

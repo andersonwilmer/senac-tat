@@ -52,5 +52,9 @@ public class Agenda extends JFrame {
 
         //Incluir o formulário (UI Designer - painel principal)
         setContentPane(pnlMain);
+
+        //mãozinha
+        btnWhatsapp.setCursor(new java.awt.Cursor(Cursor.HAND_CURSOR));
+        lblSobre.setCursor(new java.awt.Cursor(Cursor.HAND_CURSOR));
     }//fim do construtor
 } //fim da classe Agenda

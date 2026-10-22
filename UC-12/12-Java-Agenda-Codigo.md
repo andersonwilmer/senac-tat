@@ -1,6 +1,6 @@
 # Implementação da Agenda de Contatos
 
-> **Data:** 20 de outubro de 2026
+> **Data:** 20 e 21 de outubro de 2026
 
 Continuação da última anotação.
 
@@ -58,6 +58,16 @@ public class Agenda extends JFrame {
 ![Formulário final no UI Designer](Imagens/08-agenda-form-final.png)
 
 O UI Designer gera declarações para os componentes adicionados ao formulário, como painéis (JPanel), campos de texto (JTextField), rótulos (JLabel) e botões (JButton).
+
+No campo **Field name**, definimos os nomes utilizados para identificar os componentes no código Java.
+
+Principais nomes definidos:
+
+- Campos de texto: **txtId, txtNome e txtFone.**
+- Botões: **btnBuscar, btnWhatsapp, btnAdicionar, btnEditar, btnExcluir, btnRelatorio e btnLimpar.**
+- Rótulos: **lblSobre, lblDatabase, lblBanco e lblData.**
+
+Esses nomes permitem referenciar os componentes no código Java, facilitando a configuração de suas propriedades e a implementação de comportamentos.
 
 Essas declarações ficam dentro da classe `Agenda` e permitem que o código Java trabalhe com os componentes da interface.
 
@@ -134,6 +144,86 @@ setContentPane(pnlMain);
 Dessa forma, a janela Agenda passa a exibir o formulário que montamos visualmente no editor, incluindo os campos de texto, botões, ícones e demais componentes.
 
 Essa integração permite trabalhar com a interface criada no UI Designer por meio da classe Java Agenda.
+
+---
+
+## Personalizando cores e estilos dos botões
+
+No UI Designer, personalizamos a aparência dos botões por meio das propriedades background, font e foreground.
+
+- **background:** define a cor de fundo do componente.
+- **font:** permite configurar a fonte, incluindo o estilo negrito (Bold).
+- **foreground:** define a cor do texto do componente.
+
+As cores foram configuradas utilizando valores RGB, que representam a intensidade das cores vermelha (Red), verde (Green) e azul (Blue), nessa ordem.
+
+### Painel pnlBody
+
+**Botão Buscar (btnBuscar)**  
+background: RGB (13, 202, 240).  
+font: Bold.  
+foreground: RGB (255, 255, 255).
+
+**Botão WhatsApp (btnWhatsapp)**  
+background: RGB (37, 211, 102), inspirado na cor do logotipo do WhatsApp.  
+font: Bold.  
+foreground: RGB (255, 255, 255).
+
+### Painel pnlButton
+
+**Botão Adicionar (btnAdicionar)**
+background: RGB (13, 110, 253).  
+font: Bold.
+
+**Botão Editar (btnEditar)**  
+background: RGB (255, 193, 7).  
+font: Bold.  
+foreground: RGB (209, 211, 217).
+
+**Botão Excluir (btnExcluir)**  
+background: RGB (220, 53, 69).  
+font: Bold.  
+foreground: RGB (255, 255, 255).
+
+**Botão Relatório (btnRelatorio)**  
+background: RGB (108, 117, 125).  
+font: Bold.  
+foreground: RGB (255, 255, 255).
+
+**Botão Limpar (btnLimpar)**  
+background: padrão.  
+font: Bold.  
+foreground: RGB (209, 211, 217).
+
+Essas personalizações ajudam a diferenciar visualmente as ações disponíveis na Agenda e deixam a interface mais organizada.
+
+### Configurando dicas ao passar o mouse
+
+Utilizamos a propriedade **toolTipText** no UI Designer para exibir uma pequena mensagem quando o usuário posiciona o cursor sobre determinado componente.
+
+Configuramos os seguintes textos:
+
+- Botão WhatsApp (btnWhatsapp): Abrir no navegador.
+- Ícone Sobre (lblSobre): Sobre.
+
+Essas mensagens funcionam como dicas para o usuário, ajudando a indicar a finalidade dos componentes sem ocupar espaço permanente na interface.
+
+### Alterando o cursor dos componentes
+
+No arquivo `Agenda.java`, adicionamos o método `setCursor()` para alterar o formato do cursor quando o usuário posiciona o mouse sobre determinados componentes.
+
+```java
+// Mãozinha
+btnWhatsapp.setCursor(new java.awt.Cursor(Cursor.HAND_CURSOR));
+lblSobre.setCursor(new java.awt.Cursor(Cursor.HAND_CURSOR));
+```
+
+`setCursor()`: define o tipo de cursor utilizado sobre o componente.  
+`Cursor.HAND_CURSOR`: utiliza o cursor em formato de mãozinha, indicando visualmente que o componente pode ser clicado.  
+`btnWhatsapp`: aplica o cursor de mãozinha ao botão do WhatsApp.  
+`lblSobre`: aplica o mesmo comportamento ao ícone Sobre.
+
+Dessa forma, o cursor muda quando passa sobre esses componentes, oferecendo uma indicação visual de que eles permitem interação.
 
 ---
 

@@ -1,5 +1,5 @@
 /*
-DATA: 19 e 20 de outrubro de 2026
+DATA: 19 e 20 de outubro de 2026
 Este código está relacionado com "12-Java-Agenda-Codigo.md"
 Java
 */

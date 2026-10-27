@@ -1,12 +1,17 @@
 /*
-DATA: 19, 20 e 21 de outubro de 2026
-Este código está relacionado com "11-Java-Maven-MVC.md" e "12-Java-Agenda-Codigo.md"
+DATA: 19, 20, 21 e 26 de outubro de 2026
+Este código está relacionado com "11-Java-Maven-MVC.md", "12-Java-Agenda-Codigo.md" e "13-Agenda-Data-Tela-Sobre.md"
 Java
 */
 
 package view;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 // Criar a herança com JFrame
 public class Agenda extends JFrame {
@@ -17,16 +22,20 @@ public class Agenda extends JFrame {
     private JPanel pnlBody;
     private JPanel pnlButton;
     private JPanel pnlFooter;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JButton buscarButton;
-    private JButton whatsappButton;
-    private JButton adicionarButton;
-    private JButton editarButton;
-    private JButton excluirButton;
-    private JButton relatórioButton;
-    private JButton limparButton;
+    private JTextField txtId;
+    private JTextField txtNome;
+    private JTextField txtFone;
+    private JButton btnBuscar;
+    private JButton btnWhatsapp;
+    private JButton btnAdicionar;
+    private JButton btnEditar;
+    private JButton btnExcluir;
+    private JButton btnRelatorio;
+    private JButton btnLimpar;
+    private JLabel lblSobre;
+    private JLabel lblDatabase;
+    private JLabel lblBanco;
+    private JLabel lblData;
 
     //construtor
     public Agenda() {
@@ -44,9 +53,9 @@ public class Agenda extends JFrame {
         //Impedir o redicionamento
         setResizable(false);
         //Inciar em tela cheia
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);
         //quiosque (totem de autoatendimento)
-        setUndecorated(true);
+        //setUndecorated(true);
         //Iniciar a janela centralizada
         setLocationRelativeTo(null);
 
@@ -56,5 +65,35 @@ public class Agenda extends JFrame {
         //mãozinha
         btnWhatsapp.setCursor(new java.awt.Cursor(Cursor.HAND_CURSOR));
         lblSobre.setCursor(new java.awt.Cursor(Cursor.HAND_CURSOR));
+
+        //Chamar o método para atualizar a data
+        atualizarData();
+
+        //evento clicar no ícone Sobre para abrir a tela Sobre
+        lblSobre.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                //Dica para entendimento da lógica e debug (teste do evento)
+                //IO.println("Teste do Sobre");
+                //executar o método Sobre
+                sobre();
+            }
+        });
     }//fim do construtor
+
+    //Obter a data
+    //Dica de segurança: usar private se o método é exclusivo da classe
+    private void atualizarData(){
+        LocalDate hoje = LocalDate.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        //.setText modifica o texto pela data formatada
+        lblData.setText(hoje.format(formato));
+    }
+
+    //Abrir a tela Sobre
+    private void sobre() {
+        Sobre sobre = new Sobre(); //criar objeto
+        sobre.setVisible(true); //abrir a janela
+    }
 } //fim da classe Agenda

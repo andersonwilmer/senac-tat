@@ -1,6 +1,6 @@
 <!--
-  DATA: 19 e 20 de outubro de 2026
-  Este código está relacionado com "11-Java-Maven-MVC.md" e "12-Java-Agenda-Codigo.md"
+  DATA: 19, 20 e 27 de outubro de 2026
+  Este código está relacionado com "11-Java-Maven-MVC.md", "12-Java-Agenda-Codigo.md" e "14-Agenda-Conexao-MySQL.md"
   .xml
 -->
 
@@ -27,6 +27,14 @@
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf</artifactId>
             <version>3.7.2</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Source: https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.4.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

@@ -1,10 +1,12 @@
 /*
-DATA: 19, 20, 21 e 26 de outubro de 2026
-Este código está relacionado com "11-Java-Maven-MVC.md", "12-Java-Agenda-Codigo.md" e "13-Agenda-Data-Tela-Sobre.md"
+DATA: 19, 20, 21, 26 e 27 de outubro de 2026
+Este código está relacionado com "11-Java-Maven-MVC.md", "12-Java-Agenda-Codigo.md", "13-Agenda-Data-Tela-Sobre.md" e "14-Agenda-Conexao-MySQL.md"
 Java
 */
 
 package view;
+
+import connection.ConnectionFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 // Criar a herança com JFrame
 public class Agenda extends JFrame {
@@ -66,7 +69,7 @@ public class Agenda extends JFrame {
         btnWhatsapp.setCursor(new java.awt.Cursor(Cursor.HAND_CURSOR));
         lblSobre.setCursor(new java.awt.Cursor(Cursor.HAND_CURSOR));
 
-        //Chamar o método para atualizar a data
+        //"Chamar" o método para atualizar a data
         atualizarData();
 
         //evento clicar no ícone Sobre para abrir a tela Sobre
@@ -80,7 +83,26 @@ public class Agenda extends JFrame {
                 sobre();
             }
         });
+
+        //"Chamar" o método para testar conexão
+        verificarConexao();
     }//fim do construtor
+
+    //Testar a conexão com o banco de dados
+    private void verificarConexao() {
+        //Criar o objeto para criar o método testarConexao()
+        ConnectionFactory conexao = new ConnectionFactory();
+        //se retorno for verdadeiro conexão bem sucedida
+        if(conexao.testarConexao() == true) {
+            lblBanco.setText("Banco conectado");
+            //Trocar o ícone de uma label
+            lblDatabase.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/dbon.png"))));
+        } else {
+            lblBanco.setText("Banco desconectado");
+            lblDatabase.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/dboff.png"))));
+        }
+    }
+
 
     //Obter a data
     //Dica de segurança: usar private se o método é exclusivo da classe

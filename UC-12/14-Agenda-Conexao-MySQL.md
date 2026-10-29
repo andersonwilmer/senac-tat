@@ -48,7 +48,7 @@ Para permitir a comunicação entre a aplicação Java e o banco de dados MySQL,
 
 Acessamos o site [Maven Repository](https://mvnrepository.com/), pesquisamos por **mysql-connector-j** e selecionamos a versão **8.4.0**.
 
-Na página da biblioteca, copiamos o código da seção Maven e adicionamos ao arquivo pom.xml, dentro da tag <dependencies>, abaixo da dependência do FlatLaf.
+Na página da biblioteca, copiamos o código da seção Maven e adicionamos ao arquivo pom.xml, dentro da tag `<dependencies>`, abaixo da dependência do FlatLaf.
 
 ```xml
 <!-- Source: https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->

@@ -1,17 +1,22 @@
 /*
-DATA: 19, 20, 21, 26 e 27 de outubro de 2026
-Este código está relacionado com "11-Java-Maven-MVC.md", "12-Java-Agenda-Codigo.md", "13-Agenda-Data-Tela-Sobre.md" e "14-Agenda-Conexao-MySQL.md"
+DATA: 19, 20, 21, 26, 27 de outubro e 09 de novembro de 2026
+Este código está relacionado com "11-Java-Maven-MVC.md", "12-Java-Agenda-Codigo.md", "13-Agenda-Data-Tela-Sobre.md", "14-Agenda-Conexao-MySQL.md" e "15-Agenda-DAO-Cadastro.md"
 Java
 */
 
 package view;
 
 import connection.ConnectionFactory;
+import controller.ContatoController;
+import model.Contato;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -39,6 +44,9 @@ public class Agenda extends JFrame {
     private JLabel lblDatabase;
     private JLabel lblBanco;
     private JLabel lblData;
+
+    //controler
+    private final ContatoController contatoController = new ContatoController();
 
     //construtor
     public Agenda() {
@@ -86,7 +94,53 @@ public class Agenda extends JFrame {
 
         //"Chamar" o método para testar conexão
         verificarConexao();
+
+        //evento do botão adicionar
+        btnAdicionar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //IO.println("teste do botão adicionar");
+                adicionarContato();
+            }
+        });
     }//fim do construtor
+
+    //CRUD Create ===============
+    private void adicionarContato() {
+        //Instanciar o contato (model)
+        Contato contato = new Contato();
+        //setar as variáveis do model com os dados do form
+        contato.setNome(txtNome.getText());
+        contato.setFone(txtFone.getText());
+        //mensagens (validações)
+        try {
+            //validação e execução
+            contatoController.adicionar(contato);
+            //caso OK
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Contato cadastrado com sucesso!",
+                    "Agenda de Contatos",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        } catch (IllegalArgumentException e) {
+            //erro de validação
+            JOptionPane.showMessageDialog(
+                    this,e.getMessage(),
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        } catch (SQLException e) {
+            //exceção
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Não foi possível cadastrar o contato. \n" + e.getMessage(),
+                    "Erro no banco de dados",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    //Fim CRUD Create ===========
 
     //Testar a conexão com o banco de dados
     private void verificarConexao() {

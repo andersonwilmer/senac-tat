@@ -103,44 +103,23 @@ public class Agenda extends JFrame {
                 adicionarContato();
             }
         });
+
+        //evento do botão limpar
+        btnLimpar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                limpar();
+            }
+        });
     }//fim do construtor
 
-    //CRUD Create ===============
-    private void adicionarContato() {
-        //Instanciar o contato (model)
-        Contato contato = new Contato();
-        //setar as variáveis do model com os dados do form
-        contato.setNome(txtNome.getText());
-        contato.setFone(txtFone.getText());
-        //mensagens (validações)
-        try {
-            //validação e execução
-            contatoController.adicionar(contato);
-            //caso OK
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Contato cadastrado com sucesso!",
-                    "Agenda de Contatos",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-        } catch (IllegalArgumentException e) {
-            //erro de validação
-            JOptionPane.showMessageDialog(
-                    this,e.getMessage(),
-                    "Atenção",
-                    JOptionPane.WARNING_MESSAGE
-            );
-        } catch (SQLException e) {
-            //exceção
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Não foi possível cadastrar o contato. \n" + e.getMessage(),
-                    "Erro no banco de dados",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
+    //Limpar campos
+    private void limpar() {
+        txtId.setText(null);
+        txtNome.setText(null);
+        txtFone.setText(null);//sem máscara
+        txtNome.requestFocusInWindow();
     }
-    //Fim CRUD Create ===========
 
     //Testar a conexão com o banco de dados
     private void verificarConexao() {
@@ -172,4 +151,44 @@ public class Agenda extends JFrame {
         Sobre sobre = new Sobre(); //criar objeto
         sobre.setVisible(true); //abrir a janela
     }
+
+    //CRUD Create ===============
+    private void adicionarContato() {
+        //Instanciar o contato (model)
+        Contato contato = new Contato();
+        //setar as variáveis do model com os dados do form
+        contato.setNome(txtNome.getText());
+        contato.setFone(txtFone.getText());
+        //mensagens (validações)
+        try {
+            //validação e execução
+            contatoController.adicionar(contato);
+            //caso OK
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Contato cadastrado com sucesso!",
+                    "Agenda de Contatos",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            //limpar os campos
+            limpar();
+        } catch (IllegalArgumentException e) {
+            //erro de validação
+            JOptionPane.showMessageDialog(
+                    this,e.getMessage(),
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        } catch (SQLException e) {
+            //exceção
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Não foi possível cadastrar o contato. \n" + e.getMessage(),
+                    "Erro no banco de dados",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    //Fim CRUD Create ===========
+
 } //fim da classe Agenda

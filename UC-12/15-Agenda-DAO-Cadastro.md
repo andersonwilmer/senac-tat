@@ -1,6 +1,6 @@
 # Java - Agenda: DAO e Cadastro
 
-> **Data:** 09 de novembro de 2026
+> **Data:** 09 e 11 de novembro de 2026
 
 Implementando o cadastro de contatos na Agenda.
 
@@ -379,3 +379,79 @@ Como resultado, o programa apresentou a mensagem **"Contato cadastrado com suces
 Após realizar o cadastro pela interface, verificamos os registros diretamente no MySQL utilizando o comando SELECT * FROM contato;. O resultado apresentou os contatos armazenados na tabela, confirmando que os dados foram inseridos no banco de dados.
 
 ![Contatos cadastrados no MySQL](Imagens/21-contatos-mysql.png)
+
+---
+
+## Implementando o botão Limpar
+
+### Desabilitando a edição do campo ID
+
+Antes de implementar o botão Limpar, fizemos uma alteração no campo **txtId**, diretamente pelo arquivo `Agenda.form`.
+
+Acessamos as propriedades do componente e desmarcamos a opção **enabled**.
+
+Com isso, o campo ID fica desabilitado na interface, impedindo que o usuário digite ou altere seu conteúdo manualmente.
+
+### Criando o método limpar()
+
+No arquivo `Agenda.java`, criamos o método privado `limpar()` fora do construtor da classe:
+
+```java
+private void limpar() {
+    txtId.setText(null);
+    txtNome.setText(null);
+    txtFone.setText(null); //sem máscara
+    txtNome.requestFocusInWindow();
+}
+```
+
+O método utiliza `setText(null)` para deixar os campos sem conteúdo.
+
+Ao final, utilizamos `requestFocusInWindow()` para posicionar o cursor novamente no campo `txtNome`, permitindo que o usuário comece a digitar um novo contato sem precisar selecionar o campo manualmente.
+
+Dessa forma, o método centraliza a limpeza dos campos e pode ser chamado sempre que necessário.
+
+### Criando o evento do botão Limpar
+
+Depois de criar o método `limpar()`, voltamos ao arquivo `Agenda.form` e clicamos com o botão direito sobre o componente `btnLimpar`.
+
+Em seguida, seguimos o caminho: **Create Listener...** → **ActionListener** → **OK**
+
+O IntelliJ IDEA gera o evento correspondente no construtor da classe `Agenda.java`. Dentro dele, adicionamos a chamada ao método `limpar()`:
+
+```java
+//evento do botão limpar
+btnLimpar.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        limpar();
+    }
+});
+```
+
+Dessa forma, quando o usuário clicar no botão **Limpar**, o evento será executado e chamará o método `limpar()`, apagando os conteúdos dos campos e posicionando o cursor novamente no campo de nome.
+
+### Integrando o método limpar() ao cadastro
+
+Anteriormente, após cadastrar um contato, era necessário clicar manualmente no botão **Limpar** para apagar os dados do formulário.
+
+Para facilitar esse processo, adicionamos uma chamada ao método `limpar()` dentro do bloco `try` do método `adicionarContato()`, logo após a mensagem de sucesso:
+
+```java
+//caso OK
+JOptionPane.showMessageDialog(
+        this,
+        "Contato cadastrado com sucesso!",
+        "Agenda de Contatos",
+        JOptionPane.INFORMATION_MESSAGE
+);
+
+//limpar os campos
+limpar();
+```
+
+Com essa alteração, assim que o usuário confirma a mensagem de cadastro clicando em **OK**, o método `limpar()` é executado automaticamente.
+
+Dessa forma, os campos são apagados e o cursor retorna ao campo de nome, deixando o formulário pronto para um novo cadastro.
+
+É importante observar que essa chamada está dentro do `try`, após a confirmação de sucesso. Portanto, se ocorrer um erro de validação ou no banco de dados, os campos não serão limpos automaticamente.

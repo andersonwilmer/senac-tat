@@ -280,10 +280,12 @@ Após o construtor da classe `Agenda`, criamos o método privado `adicionarConta
 Primeiro, instanciamos a classe `Contato` e utilizamos os métodos Setters para preencher seus atributos com os dados digitados nos campos do formulário:
 
 ```java
-Contato contato = new Contato();
+private void adicionarContato() {
 
-contato.setNome(txtNome.getText());
-contato.setFone(txtFone.getText());
+    Contato contato = new Contato();
+
+    contato.setNome(txtNome.getText());
+    contato.setFone(txtFone.getText());
 ```
 
 `txtNome.getText()`: obtém o nome digitado no campo de texto.  

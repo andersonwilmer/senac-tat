@@ -1,6 +1,6 @@
 /*
-DATA: 09 de novembro de 2026
-Este código está relacionado com "15-Agenda-DAO-Cadastro.md"
+DATA: 09 e 16 de novembro de 2026
+Este código está relacionado com "15-Agenda-DAO-Cadastro.md" e "16-Agenda-Relatorios.md"
 Java
 */
 
@@ -22,8 +22,10 @@ public class ContatoController {
 
     //CRUD Create ============
     public void adicionar(Contato contato) throws SQLException {
+        //(contato) PASSO 3 do slide CRUD Create
         validarContato(contato);
         //executando o DAO
+        //PASSO 4 do slide CRUD Create
         contatoDAO.adicionar(contato);
     }
     //Fim CRUD Create ========
@@ -34,6 +36,13 @@ public class ContatoController {
         //.getNome().trim().isEmpty() remove espaços em branco invisíveis no início e fim (ex: "  " vira "")
         if (contato.getNome() == null || contato.getNome().trim().isEmpty()) {
             throw new IllegalArgumentException("Informe o nome do contato.");
+        }
+
+        //regex(expressão regular)
+        //d{2} obrigar o preenchimento com 2 dígitos
+        //! not (se não corresponder com o telefone)
+        if (contato.getFone() == null || !contato.getFone().matches("\\(\\d{2}\\) \\d{5}-\\d{4}")) {
+            throw new IllegalArgumentException("Informe o telefone completo.");
         }
 
         //remove espaços inúteis antes de salvar

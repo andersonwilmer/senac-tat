@@ -1,6 +1,6 @@
 /*
-DATA: 09 de novembro de 2026
-Este código está relacionado com "15-Agenda-DAO-Cadastro.md"
+DATA: 09 e 16 de novembro de 2026
+Este código está relacionado com "15-Agenda-DAO-Cadastro.md" e "16-Agenda-Relatorios.md"
 Java
 */
 
@@ -11,7 +11,10 @@ import model.Contato;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContatoDAO {
     //Este módulo trabalha com JDBC (bibliotecas responsáveis pelo acesso ao banco de dados)
@@ -37,8 +40,36 @@ public class ContatoDAO {
             comando.setString(1, contato.getNome());
             comando.setString(2, contato.getFone());
             //executar o comando
+            //PASSO 5 do slide CRUD Create
             comando.executeUpdate();
         }
     }
     //Fim CRUD Create ========
+
+    //Relatório de contatos
+    //método com retorno do array(vetor) de contatos
+    public List<Contato> listarTodos() throws SQLException {
+        String sql = "select idContato, nome, fone from contato order by nome";
+
+        List<Contato> contatos = new ArrayList<>();
+        try (Connection con = new ConnectionFactory().conectar();
+             PreparedStatement comando = con.prepareStatement(sql);
+             //PASSO 3 do slide Service
+             ResultSet resultado = comando.executeQuery()) {
+
+            //enquanto houver contatos no banco
+            //PASSO 4 do slide Service (ResultSet JDBC)
+            while (resultado.next()) {
+                Contato contato = new Contato();
+                contato.setIdContato(resultado.getInt("idContato"));
+                contato.setNome(resultado.getString("nome"));
+                contato.setFone(resultado.getString("fone"));
+                //adicionar
+                contatos.add(contato);
+            }
+        }
+        //PASSO 5 do slide Service (vetor contendo os contatos)
+        return contatos;
+    }
+    //Fim relatório de contatos
 }

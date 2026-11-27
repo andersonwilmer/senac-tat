@@ -265,3 +265,147 @@ private void acessarWhatsapp() {
 - `desktop.browse(uri)`: abre o endereço no navegador padrão.
 - `catch (Exception e)`: trata possíveis erros ao tentar abrir o WhatsApp Web.
 - `System.err.println(e.getMessage())`: exibe a mensagem do erro no console.
+
+---
+
+## Implementando a edição de contatos (CRUD Update)
+
+Depois da implementação da busca e do acesso ao WhatsApp Web, foi iniciado o CRUD Update, responsável por atualizar os dados de um contato já cadastrado.
+
+### Método editar() - ContatoController
+
+Na classe `ContatoController`, foi criado o método `editar()` junto aos demais métodos CRUD, logo após o método `buscarPorNome()`.
+
+```java
+// CRUD Update
+public boolean editar(Contato contato) throws SQLException {
+    if(contato.getIdContato() <= 0) {
+        throw new IllegalArgumentException("Busque um contato antes de editar");
+    }
+    validarContato(contato);
+    return contatoDAO.editar(contato);
+}
+```
+
+**Entendendo o método:**
+
+- `public boolean editar(Contato contato)`: recebe um objeto `Contato` e retorna um valor booleano, indicando se a atualização foi realizada.
+- `contato.getIdContato() <= 0`: verifica se o contato possui um ID válido.
+- `throw new IllegalArgumentException(...)`: interrompe a execução caso não exista um ID válido, informando que é necessário buscar um contato antes de editar.
+- `validarContato(contato)`: utiliza o método de validação já existente no Controller para verificar o nome e o telefone.
+- `return contatoDAO.editar(contato)`: encaminha o contato validado para o DAO e retorna o resultado da atualização.
+
+O método `editar()` utiliza o ID para identificar qual contato será atualizado, evitando alterar um registro sem identificação.
+
+### Método editar() - ContatoDAO
+
+Na classe `ContatoDAO`, foi criado o método `editar()` logo depois do método `buscarPorNome()`, responsável por executar o comando SQL de atualização dos dados do contato.
+
+```java
+// CRUD Update ============
+public boolean editar(Contato contato) throws SQLException {
+    String sql = "update contato set nome = ?, fone = ? where idContato = ?";
+    ConnectionFactory fabrica = new ConnectionFactory();
+
+    try (Connection con = fabrica.conectar();
+         PreparedStatement comando = con.prepareStatement(sql)) {
+
+        comando.setString(1, contato.getNome());
+        comando.setString(2, contato.getFone());
+        comando.setInt(3, contato.getIdContato());
+
+        return comando.executeUpdate() > 0;
+    }
+}
+// Fim CRUD Update ========
+```
+
+**Entendendo o método:**
+
+- `String sql`: armazena o comando SQL `UPDATE`, utilizado para atualizar os dados de um contato.
+- `ConnectionFactory fabrica`: instancia a classe responsável por fornecer a conexão com o banco de dados.
+- `PreparedStatement`: prepara o comando SQL para receber os valores do contato.
+- `comando.setString(1, contato.getNome())`: preenche o primeiro parâmetro com o novo nome.
+- `comando.setString(2, contato.getFone())`: preenche o segundo parâmetro com o novo telefone.
+- `comando.setInt(3, contato.getIdContato())`: preenche o terceiro parâmetro com o ID do contato que será atualizado.
+- `comando.executeUpdate()`: executa o comando de atualização no banco de dados.
+- `> 0`: verifica se pelo menos um registro foi afetado. Retorna `true` quando a atualização ocorre e `false` caso contrário.
+
+O ID é utilizado na cláusula `WHERE` para identificar exatamente qual contato deve receber as alterações.
+
+### Integrando a edição à tela Agenda
+
+Na classe `Agenda`, dentro do construtor, foi adicionado um `ActionListener` ao botão `btnEditar`, chamando o método `editarContato()` quando o usuário clicar nele.
+
+```java
+btnEditar.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        editarContato();
+    }
+});
+```
+
+### Método editarContato() — Agenda
+
+Fora do construtor, na classe `Agenda`, foi criado o método `editarContato()`, responsável por recuperar os dados preenchidos na tela e encaminhá-los ao Controller para realizar a atualização.
+
+```java
+private void editarContato() {
+    try {
+        if (txtId.getText().trim().isEmpty()) {
+            throw new IllegalArgumentException("Busque um contato antes de editar.");
+        }
+
+        Contato contato = new Contato();
+        contato.setIdContato(Integer.parseInt(txtId.getText()));
+        contato.setNome(txtNome.getText());
+        contato.setFone(txtFone.getText());
+
+        boolean atualizado = contatoController.editar(contato);
+
+        if (atualizado == true) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Contato atualizado com sucesso!",
+                    "Agenda de contatos",
+                    JOptionPane.INFORMATION_MESSAGE);
+            limpar();
+        } else {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Contato não encontrado para atualização!",
+                    "Agenda de contatos",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(
+                this, e.getMessage(),
+                "Atenção",
+                JOptionPane.WARNING_MESSAGE
+        );
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Não foi possível editar o contato.\n" + e.getMessage(),
+                "Erro no banco de dados",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
+```
+
+**Entendendo o método:**
+
+- `txtId.getText().trim().isEmpty()`: verifica se o campo de ID está vazio, impedindo a edição sem antes buscar um contato.
+- `throw new IllegalArgumentException(...)`: interrompe a execução e apresenta um aviso caso nenhum contato tenha sido buscado.
+- `new Contato()`: cria um objeto para armazenar os dados que serão atualizados.
+- `Integer.parseInt(txtId.getText())`: converte o ID, que está em formato de texto, para inteiro.
+- `contato.setIdContato()`, `setNome()` e `setFone()`: preenchem o objeto com os dados atuais dos campos da tela.
+- `contatoController.editar(contato)`: encaminha o objeto ao Controller para validar e realizar a atualização.
+- `boolean atualizado`: armazena o resultado da operação, indicando se algum registro foi atualizado.
+- `if (atualizado == true)`: verifica se a atualização foi realizada. Em caso positivo, exibe uma mensagem de sucesso e chama `limpar()`.
+- `else`: caso nenhum registro seja atualizado, apresenta uma mensagem informando que o contato não foi encontrado.
+- `catch (IllegalArgumentException e)`: trata erros de validação, como tentar editar sem buscar um contato.
+- `catch (SQLException e)`: trata possíveis erros durante a operação no banco de dados.
+- `e.getMessage()`: acrescenta a descrição do erro do banco à mensagem exibida.
